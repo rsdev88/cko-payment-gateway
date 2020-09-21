@@ -27,7 +27,7 @@ namespace PaymentGatewayApiTests.Models.CustomAttributes
         {
             //Arrange
             var expirationYear = DateTime.Now.AddYears(1).ToString("yy");
-            var model = new ProcessPaymentPostDto() { ExpirationYear = expirationYear };
+            var model = new ProcessPaymentRequestDto() { ExpirationYear = expirationYear };
             var validationContext2 = new ValidationContext(model);
 
             //Act
@@ -55,7 +55,7 @@ namespace PaymentGatewayApiTests.Models.CustomAttributes
         {
             //Arrange
             var expirationYear = DateTime.Now.ToString("yy");
-            var model = new ProcessPaymentPostDto() { ExpirationYear = expirationYear };
+            var model = new ProcessPaymentRequestDto() { ExpirationYear = expirationYear };
             var validationContext2 = new ValidationContext(model);
 
             int inputMonthAsInt;

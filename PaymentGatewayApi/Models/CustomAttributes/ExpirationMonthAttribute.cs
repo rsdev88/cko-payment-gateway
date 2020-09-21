@@ -10,7 +10,7 @@ namespace PaymentGatewayApi.Models.CustomAttributes
         protected override ValidationResult IsValid(object expirationMonth, ValidationContext validationContext)
         {
             //We need the expirationYear value from the request to evaluate if the expirationMonth is in the past.
-            var model = (ProcessPaymentPostDto)validationContext.ObjectInstance;
+            var model = (ProcessPaymentRequestDto)validationContext.ObjectInstance;
             var expirationYear = model?.ExpirationYear;
 
             if(string.IsNullOrEmpty(expirationMonth as string) || string.IsNullOrEmpty(expirationYear))

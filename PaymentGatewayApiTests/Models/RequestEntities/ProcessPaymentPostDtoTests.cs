@@ -21,7 +21,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ModelWithoutRequiredPropertiesShouldFailValidation(string propertyName)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto();
+            var model = new ProcessPaymentRequestDto();
             
             //Act
             var results = this.ValidateModel(model);
@@ -41,7 +41,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ValidateCardNumber(string cardNumber, bool shouldFailValidation)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto()
+            var model = new ProcessPaymentRequestDto()
             {
                 CardNumber = cardNumber
             };
@@ -61,7 +61,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ValidateCardType(int cardType, bool shouldFailValidation)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto()
+            var model = new ProcessPaymentRequestDto()
             {
                 CardType = (CardType)cardType
             };
@@ -95,7 +95,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ValidateExpirationMonth(string expirationMonth, bool shouldFailValidation)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto()
+            var model = new ProcessPaymentRequestDto()
             {
                 ExpirationMonth = expirationMonth,
                 ExpirationYear = DateTime.Now.AddYears(1).ToString("yy") //The tests for the custom validation logic are in the CustomAttributes folder.
@@ -120,7 +120,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ValidateExpirationYearFormat(string expirationYear, bool shouldFailValidation)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto()
+            var model = new ProcessPaymentRequestDto()
             {
                 ExpirationYear = expirationYear 
             };
@@ -150,7 +150,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ValidateCurrency(int currency, bool shouldFailValidation)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto()
+            var model = new ProcessPaymentRequestDto()
             {
                 Currency = (SupportedCurrencies)currency
             };
@@ -176,7 +176,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
         public void ValidateCvv(string cvv, bool shouldFailValidation)
         {
             //Arrange
-            var model = new ProcessPaymentPostDto()
+            var model = new ProcessPaymentRequestDto()
             {
                 Cvv = cvv
             };

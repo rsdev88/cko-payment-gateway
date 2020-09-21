@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorCode_BankingApiUnexpectedError" xml:space="preserve">
+    <value>4567</value>
+  </data>
+  <data name="ErrorCode_BankingApiUnsuccesfulResponse" xml:space="preserve">
+    <value>3456</value>
+  </data>
+  <data name="ErrorCode_InternalServerErrorCatchAll" xml:space="preserve">
+    <value>9876</value>
+  </data>
+  <data name="ErrorCode_MappingError_BankApiToPaymentApi" xml:space="preserve">
+    <value>5432</value>
+  </data>
+  <data name="ErrorCode_MappingError_PaymentApiToBankApi" xml:space="preserve">
+    <value>2345</value>
+  </data>
   <data name="ErrorCode_Validation" xml:space="preserve">
     <value>1234</value>
   </data>
   <data name="ErrorDescription_Generic" xml:space="preserve">
-    <value>Please refer to the status code in the API documentation at http://paymentgateway.com/api/documentation/errors.</value>
+    <value>Please refer to the status code in the API documentation at http://paymentgateway.com/api/documentation/errors. Also see http://paymentgateway.com/api/issues to see if any know issues match your circumstances (and a timeline for their fixes).</value>
   </data>
   <data name="ErrorDescription_Validation" xml:space="preserve">
     <value>Please refer to the expected input formats in the API documentation at http://paymentgateway.com/api/documentation/errors.</value>
+  </data>
+  <data name="ErrorMessage_BankingApiUnexpectedError" xml:space="preserve">
+    <value>An unexpected internal server error occurred when calling the banking API.</value>
+  </data>
+  <data name="ErrorMessage_BankingApiUnsuccesfulResponse" xml:space="preserve">
+    <value>The following internal server occurred when calling the banking API: {0}</value>
+  </data>
+  <data name="ErrorMessage_InternalServerErrorCatchAll" xml:space="preserve">
+    <value>An enexpected error occurred whilst processing your request.</value>
+  </data>
+  <data name="ErrorMessage_MappingError_BankApiToPaymentApi" xml:space="preserve">
+    <value>An internal server error occurred when mapping from the banking API response DTO to the this API's response DTO.</value>
+  </data>
+  <data name="ErrorMessage_MappingError_PaymentApiToBankApi" xml:space="preserve">
+    <value>An internal server error occurred when mapping from the request DTO to the banking API request DTO.</value>
   </data>
   <data name="ErrorMessage_Validation" xml:space="preserve">
     <value>One or more validation errors were found in the request.</value>

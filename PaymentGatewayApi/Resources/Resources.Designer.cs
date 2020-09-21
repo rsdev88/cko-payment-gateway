@@ -61,6 +61,51 @@ namespace PaymentGatewayApi.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 4567.
+        /// </summary>
+        public static string ErrorCode_BankingApiUnexpectedError {
+            get {
+                return ResourceManager.GetString("ErrorCode_BankingApiUnexpectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3456.
+        /// </summary>
+        public static string ErrorCode_BankingApiUnsuccesfulResponse {
+            get {
+                return ResourceManager.GetString("ErrorCode_BankingApiUnsuccesfulResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 9876.
+        /// </summary>
+        public static string ErrorCode_InternalServerErrorCatchAll {
+            get {
+                return ResourceManager.GetString("ErrorCode_InternalServerErrorCatchAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5432.
+        /// </summary>
+        public static string ErrorCode_MappingError_BankApiToPaymentApi {
+            get {
+                return ResourceManager.GetString("ErrorCode_MappingError_BankApiToPaymentApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2345.
+        /// </summary>
+        public static string ErrorCode_MappingError_PaymentApiToBankApi {
+            get {
+                return ResourceManager.GetString("ErrorCode_MappingError_PaymentApiToBankApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1234.
         /// </summary>
         public static string ErrorCode_Validation {
@@ -70,7 +115,7 @@ namespace PaymentGatewayApi.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please refer to the status code in the API documentation at http://paymentgateway.com/api/documentation/errors..
+        ///   Looks up a localized string similar to Please refer to the status code in the API documentation at http://paymentgateway.com/api/documentation/errors. Also see http://paymentgateway.com/api/issues to see if any know issues match your circumstances (and a timeline for their fixes)..
         /// </summary>
         public static string ErrorDescription_Generic {
             get {
@@ -84,6 +129,51 @@ namespace PaymentGatewayApi.Resources {
         public static string ErrorDescription_Validation {
             get {
                 return ResourceManager.GetString("ErrorDescription_Validation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected internal server error occurred when calling the banking API..
+        /// </summary>
+        public static string ErrorMessage_BankingApiUnexpectedError {
+            get {
+                return ResourceManager.GetString("ErrorMessage_BankingApiUnexpectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following internal server occurred when calling the banking API: {0}.
+        /// </summary>
+        public static string ErrorMessage_BankingApiUnsuccesfulResponse {
+            get {
+                return ResourceManager.GetString("ErrorMessage_BankingApiUnsuccesfulResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An enexpected error occurred whilst processing your request..
+        /// </summary>
+        public static string ErrorMessage_InternalServerErrorCatchAll {
+            get {
+                return ResourceManager.GetString("ErrorMessage_InternalServerErrorCatchAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal server error occurred when mapping from the banking API response DTO to the this API&apos;s response DTO..
+        /// </summary>
+        public static string ErrorMessage_MappingError_BankApiToPaymentApi {
+            get {
+                return ResourceManager.GetString("ErrorMessage_MappingError_BankApiToPaymentApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An internal server error occurred when mapping from the request DTO to the banking API request DTO..
+        /// </summary>
+        public static string ErrorMessage_MappingError_PaymentApiToBankApi {
+            get {
+                return ResourceManager.GetString("ErrorMessage_MappingError_PaymentApiToBankApi", resourceCulture);
             }
         }
         

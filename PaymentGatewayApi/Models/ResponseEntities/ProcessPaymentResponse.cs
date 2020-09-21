@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PaymentGatewayApi.Models.ResponseEntities
 {
-    public class PaymentProcessedPost
+    public class ProcessPaymentResponse
     {
         [JsonProperty("transactionId")]
         public Guid TransactionId { get; set; }

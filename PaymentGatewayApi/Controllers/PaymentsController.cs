@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
+using PaymentGatewayApi.Services;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace PaymentGatewayApi.Controllers
 {
@@ -10,23 +11,31 @@ namespace PaymentGatewayApi.Controllers
     [ApiVersion("1.0")]
     public class PaymentsController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult ProcessPayment([FromBody] ProcessPaymentPostDto paymentDetails)
-        {
-            if(!ModelState.IsValid)
-            {
-                var response = new ResponseBaseDto();
-                response.StatusCode = HttpStatusCode.BadRequest;
-                response.Data = new ValidationErrorResponse(ModelState);
+        private readonly IPaymentsProcessingService _paymentsProcessingService;
 
-                return BadRequest(response);
+        public PaymentsController(IPaymentsProcessingService paymentsProcessingService)
+        {
+            this._paymentsProcessingService = paymentsProcessingService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentRequestDto paymentDetails)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ResponseBaseDto() 
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Data = new ValidationErrorResponse(ModelState)
+                });
             }
 
-            //Todo - process valid request.
-            return Ok(new ResponseBaseDto() 
-            { 
+            var responseData = await this._paymentsProcessingService.ProcessPayment(paymentDetails);
+
+            return Ok(new ResponseBaseDto()
+            {
                 StatusCode = HttpStatusCode.OK,
-                Data = "Work in progress..."
+                Data = responseData
             });
         }
     }

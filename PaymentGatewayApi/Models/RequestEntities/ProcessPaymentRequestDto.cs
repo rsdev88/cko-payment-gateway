@@ -6,7 +6,7 @@ using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
 namespace PaymentGatewayApi.Models.RequestEntities
 {
-    public class ProcessPaymentPostDto
+    public class ProcessPaymentRequestDto
     {
         [JsonProperty("cardNumber")]
         [Required]

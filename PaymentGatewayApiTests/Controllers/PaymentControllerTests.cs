@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using NUnit.Framework;
 using PaymentGatewayApi.Controllers;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
+using PaymentGatewayApi.Services;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace PaymentGatewayApiTests.Controllers
 {
@@ -11,22 +15,31 @@ namespace PaymentGatewayApiTests.Controllers
     public class PaymentControllerTests
     {
         private PaymentsController _controller;
+        private Mock<IPaymentsProcessingService> _paymentProcessingService;
 
         [SetUp]
         public void SetupTests()
         {
-            this._controller = new PaymentsController();
+            this._paymentProcessingService = new Mock<IPaymentsProcessingService>();
+            this._controller = new PaymentsController(_paymentProcessingService.Object);
         }
 
         [Test]
-        //This particular test will evolve as this action method is developed.
-        public void ProcessPaymentShouldReturn200ForValidModelState()
+        public async Task ProcessPaymentShouldReturn200ForValidModelState()
         {
             //Arrange
-            var model = new ProcessPaymentPostDto();
+            var model = new ProcessPaymentRequestDto();
+            var guid = new Guid();
+            var serviceResponse = new ProcessPaymentResponse()
+            {
+                TransactionId = guid
+            };
+
+            this._paymentProcessingService.Setup(x => x.ProcessPayment(It.IsAny<ProcessPaymentRequestDto>()))
+                                            .ReturnsAsync(serviceResponse);
 
             //Act
-            var result = this._controller.ProcessPayment(model);
+            var result = await this._controller.ProcessPayment(model);
 
             //Assert
             Assert.IsNotNull(result);
@@ -39,18 +52,22 @@ namespace PaymentGatewayApiTests.Controllers
 
             var resultValue = resultAsOkObject.Value as ResponseBaseDto;
             Assert.IsTrue(resultValue.StatusCode == HttpStatusCode.OK);
-            Assert.IsTrue(resultValue.Data.ToString() == "Work in progress...");
+            Assert.IsNotNull(resultValue.Data);
+            Assert.IsInstanceOf<ProcessPaymentResponse>(resultValue.Data);
+
+            var resultData = resultValue.Data as ProcessPaymentResponse;
+            Assert.AreEqual(guid, resultData.TransactionId);
         }
 
         [Test]
         public void ProcessPaymentShouldReturn400ForInvalidModelState()
         {
             //Arrange
-            var model = new ProcessPaymentPostDto();
+            var model = new ProcessPaymentRequestDto();
             this._controller.ModelState.AddModelError("ExpirationMonth", PaymentGatewayApi.Resources.Resources.Validation_ExpirationMonth);
 
             //Act
-            var result = this._controller.ProcessPayment(model);
+            var result = this._controller.ProcessPayment(model).Result;
 
             //Assert
             Assert.IsNotNull(result);
