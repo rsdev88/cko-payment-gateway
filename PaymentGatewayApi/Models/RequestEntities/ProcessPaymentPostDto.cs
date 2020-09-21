@@ -6,7 +6,7 @@ using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
 namespace PaymentGatewayApi.Models.RequestEntities
 {
-    public class PaymentDetailsPost
+    public class ProcessPaymentPostDto
     {
         [JsonProperty("cardNumber")]
         [Required]
@@ -41,7 +41,7 @@ namespace PaymentGatewayApi.Models.RequestEntities
 
         [JsonProperty("currency")]
         [Required]
-        [Range(minimum: 0, maximum: 7)]
+        [Range(minimum: 0, maximum: 11)]
         public SupportedCurrencies? Currency { get; set; }
 
         [JsonProperty("cvv")]

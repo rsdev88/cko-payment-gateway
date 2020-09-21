@@ -7,18 +7,22 @@
             GBP,
             USD,
             EUR,
+            CHF,
+            SGD,
+            AED,
+            HKD,
+            BRL,
+            MUR,
             AUD,
             NZD,
-            ZAR,
             CAD,
-            HKD,
         }
 
         public enum CardType
         {
             MasterCard,
             Visa,
-            AmericanExpress
+            AmericanExpress,
         }
     }
 }

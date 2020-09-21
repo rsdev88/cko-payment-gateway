@@ -10,26 +10,24 @@ namespace PaymentGatewayApi.Controllers
     [ApiVersion("1.0")]
     public class PaymentsController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("Hello world!");
-        }
-
         [HttpPost]
-        public IActionResult ProcessPayment([FromBody] PaymentDetailsPost paymentDetails)
+        public IActionResult ProcessPayment([FromBody] ProcessPaymentPostDto paymentDetails)
         {
             if(!ModelState.IsValid)
             {
-                var response = new ResponseBase();
-                response.statusCode = HttpStatusCode.BadRequest;
+                var response = new ResponseBaseDto();
+                response.StatusCode = HttpStatusCode.BadRequest;
                 response.Data = new ValidationErrorResponse(ModelState);
 
                 return BadRequest(response);
             }
 
             //Todo - process valid request.
-            return Ok("Work in progress...");
+            return Ok(new ResponseBaseDto() 
+            { 
+                StatusCode = HttpStatusCode.OK,
+                Data = "Work in progress..."
+            });
         }
     }
 }

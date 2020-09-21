@@ -4,10 +4,10 @@ using System.Net;
 
 namespace PaymentGatewayApi.Models.ResponseEntities
 {
-    public class ResponseBase
+    public class ResponseBaseDto
     {
         [JsonProperty("statusCode")]
-        public HttpStatusCode statusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
         [JsonProperty("data")]
         public Object Data { get; set; }
