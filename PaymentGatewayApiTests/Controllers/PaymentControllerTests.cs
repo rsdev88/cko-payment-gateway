@@ -8,6 +8,7 @@ using PaymentGatewayApi.Services;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using PaymentGatewayApi.Resources;
 
 namespace PaymentGatewayApiTests.Controllers
 {
@@ -64,7 +65,7 @@ namespace PaymentGatewayApiTests.Controllers
         {
             //Arrange
             var model = new ProcessPaymentRequestDto();
-            this._controller.ModelState.AddModelError("ExpirationMonth", PaymentGatewayApi.Resources.Resources.Validation_ExpirationMonth);
+            this._controller.ModelState.AddModelError("ExpirationMonth", Resources.Validation_ExpirationMonth);
 
             //Act
             var result = this._controller.ProcessPayment(model).Result;
@@ -84,15 +85,15 @@ namespace PaymentGatewayApiTests.Controllers
             Assert.IsInstanceOf<ValidationErrorResponse>(resultValue.Data);
 
             var resultError = resultValue.Data as ValidationErrorResponse;
-            Assert.IsTrue(resultError.ErrorMessage == PaymentGatewayApi.Resources.Resources.ErrorMessage_Validation);
-            Assert.IsTrue(resultError.ErrorDescription == PaymentGatewayApi.Resources.Resources.ErrorDescription_Validation);
-            Assert.IsTrue(resultError.ErrorCode == PaymentGatewayApi.Resources.Resources.ErrorCode_Validation);
+            Assert.IsTrue(resultError.ErrorMessage == Resources.ErrorMessage_Validation);
+            Assert.IsTrue(resultError.ErrorDescription == Resources.ErrorDescription_Validation);
+            Assert.IsTrue(resultError.ErrorCode == Resources.ErrorCode_Validation);
             Assert.IsNotNull(resultError.ValidationErrors);
             Assert.IsTrue(resultError.ValidationErrors.Count == 1);
             Assert.IsTrue(resultError.ValidationErrors[0].FieldName == "ExpirationMonth");
             Assert.IsNotNull(resultError.ValidationErrors[0].ErrorMessages);
             Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages.Length == 1);
-            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == PaymentGatewayApi.Resources.Resources.Validation_ExpirationMonth);
+            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == Resources.Validation_ExpirationMonth);
         }
     }
 }

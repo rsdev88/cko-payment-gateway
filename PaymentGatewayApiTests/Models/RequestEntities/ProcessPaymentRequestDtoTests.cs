@@ -8,7 +8,7 @@ using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
 namespace PaymentGatewayApiTests.Models.RequestEntities
 {
-    public class ProcessPaymentPostDtoTests
+    public class ProcessPaymentRequestDtoTests
     {
         [TestCase("CardNumber")]
         [TestCase("CardHolder")]

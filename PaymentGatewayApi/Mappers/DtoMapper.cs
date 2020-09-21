@@ -7,7 +7,9 @@ using System.Net;
 
 namespace PaymentGatewayApi.Mappers
 {
-    //Maps the Payment Gateway API DTOs to the Bank API DTOs - useful in case the Bank API ever changes, it won't break the Payment Gateway DTOs (and therefore won't require client changes).
+    /// <summary>
+    /// Maps the Payment Gateway API DTOs to the Bank API DTOs - useful in case the Bank API ever changes, it won't break the Payment Gateway DTOs (and therefore won't require client changes).
+    /// </summary>
     public class DtoMapper : IDtoMapper
     {
         public BankProcessPaymentRequestDto MapProcessPaymentRequestModelToBankDto(ProcessPaymentRequestDto model)

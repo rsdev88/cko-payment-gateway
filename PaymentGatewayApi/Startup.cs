@@ -8,7 +8,7 @@ using PaymentGatewayApi.Mappers;
 using PaymentGatewayApi.Middleware;
 using PaymentGatewayApi.Services;
 using PaymentGatewayApi.Services.Banking;
-using PaymentGatewayApi.Services.Configuration;
+using System;
 using System.Text.Json.Serialization;
 
 namespace PaymentGatewayApi
@@ -41,10 +41,12 @@ namespace PaymentGatewayApi
             });
             services.AddControllers();
 
-            services.AddSingleton<IBankingApiConfiguration>(Configuration.GetSection("bankingApi").Get<BankingApiConfiguration>());
             services.AddTransient<IPaymentsProcessingService, DefaultPaymentsProcessingService>();
             services.AddTransient<IDtoMapper, DtoMapper>();
-            services.AddTransient<IBankingService, BankingService>();
+            services.AddHttpClient<IBankingService, BankingService>(client =>
+                {
+                    client.BaseAddress = new Uri(Configuration["bankingApi.baseUrl"]); 
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
