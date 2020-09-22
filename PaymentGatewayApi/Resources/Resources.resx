@@ -145,7 +145,7 @@
     <value>An unexpected internal server error occurred when calling the banking API.</value>
   </data>
   <data name="ErrorMessage_BankingApiUnsuccesfulResponse" xml:space="preserve">
-    <value>The following internal server occurred when calling the banking API: {0}</value>
+    <value>The following internal server occurred when calling the banking API: {0} - {1}</value>
   </data>
   <data name="ErrorMessage_InternalServerErrorCatchAll" xml:space="preserve">
     <value>An enexpected error occurred whilst processing your request.</value>
