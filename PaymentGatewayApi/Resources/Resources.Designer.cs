@@ -142,7 +142,7 @@ namespace PaymentGatewayApi.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following internal server occurred when calling the banking API: {0}.
+        ///   Looks up a localized string similar to The following internal server occurred when calling the banking API: {0} - {1}.
         /// </summary>
         public static string ErrorMessage_BankingApiUnsuccesfulResponse {
             get {

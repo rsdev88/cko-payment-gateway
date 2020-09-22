@@ -31,7 +31,7 @@ namespace PaymentGatewayApi.Services.Banking
 
             try
             {
-                var response = this._httpClient.PostAsync(this._configuration["bankingApi.paymentsEndpoint"], content, new CancellationToken()).Result;
+                var response = this._httpClient.PostAsync(this._configuration["bankingApi:paymentsEndpoint"], content, new CancellationToken()).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -42,7 +42,7 @@ namespace PaymentGatewayApi.Services.Banking
 
                 throw new HttpException(HttpStatusCode.BadGateway,
                                         Resources.Resources.ErrorCode_BankingApiUnsuccesfulResponse,
-                                        string.Format(Resources.Resources.ErrorMessage_BankingApiUnsuccesfulResponse, response.ReasonPhrase));            
+                                        string.Format(Resources.Resources.ErrorMessage_BankingApiUnsuccesfulResponse, ((int)response.StatusCode).ToString(), response.ReasonPhrase));            
             }
             catch (HttpException)
             {

@@ -45,7 +45,7 @@ namespace PaymentGatewayApi
             services.AddTransient<IDtoMapper, DtoMapper>();
             services.AddHttpClient<IBankingService, BankingService>(client =>
                 {
-                    client.BaseAddress = new Uri(Configuration["bankingApi.baseUrl"]); 
+                    client.BaseAddress = new Uri(Configuration["bankingApi:baseUrl"]); 
                 });
         }
 

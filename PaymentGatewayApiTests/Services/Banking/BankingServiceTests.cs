@@ -29,7 +29,7 @@ namespace PaymentGatewayApiTests.Services.Banking
         {
             this._handler = new Mock<HttpMessageHandler>();
             this._bankingApiConfiguration = new Mock<IConfiguration>();
-            this._bankingApiConfiguration.SetupGet(x => x["bankingApi.paymentsEndpoint"]).Returns("fakeendpoint");
+            this._bankingApiConfiguration.SetupGet(x => x["bankingApi:paymentsEndpoint"]).Returns("fakeendpoint");
 
             var httpClient = new HttpClient(this._handler.Object)
             {
@@ -103,7 +103,7 @@ namespace PaymentGatewayApiTests.Services.Banking
             //Assert
             var ex = Assert.ThrowsAsync<HttpException>(() => this._bankingService.ProcessPayment(bankDto));
             Assert.AreEqual(HttpStatusCode.BadGateway, ex.StatusCode);
-            Assert.AreEqual(string.Format(Resources.ErrorMessage_BankingApiUnsuccesfulResponse, "Internal Server Error"), ex.Message);
+            Assert.AreEqual(string.Format(Resources.ErrorMessage_BankingApiUnsuccesfulResponse, "500", "Internal Server Error"), ex.Message);
             Assert.AreEqual(Resources.ErrorCode_BankingApiUnsuccesfulResponse, ex.ErrorCode);
         }
 
