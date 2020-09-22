@@ -34,16 +34,19 @@ namespace PaymentGatewayApi.Middleware
         {
             HttpStatusCode statusCode;
             string errorCode;
+            string errorMessage;
 
             if (ex is HttpException httpException)
             {
                 statusCode = httpException.StatusCode;
                 errorCode = httpException.ErrorCode;
+                errorMessage = httpException.Message;
             }
             else
             {
                 statusCode = HttpStatusCode.InternalServerError;
                 errorCode = Resources.Resources.ErrorCode_InternalServerErrorCatchAll;
+                errorMessage = Resources.Resources.ErrorMessage_InternalServerErrorCatchAll;
             }
 
             httpContext.Response.StatusCode = (int)statusCode;
@@ -54,9 +57,9 @@ namespace PaymentGatewayApi.Middleware
                 StatusCode = statusCode,
                 Data = new ErrorResponse()
                 {
-                    ErrorCode = errorCode, 
-                    ErrorMessage = ex.Message ?? Resources.Resources.ErrorMessage_InternalServerErrorCatchAll,
-                    ErrorDescription = ex.InnerException?.Message ?? Resources.Resources.ErrorDescription_Generic
+                    ErrorCode = errorCode,
+                    ErrorMessage = errorMessage,
+                    ErrorDescription = Resources.Resources.ErrorDescription_Generic
                 }
             }));
         }
