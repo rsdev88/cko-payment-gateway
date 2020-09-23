@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using PaymentGatewayApi.Models.RequestEntities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
@@ -24,7 +22,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             var model = new ProcessPaymentRequestDto();
             
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.IsTrue(results.Any(result => result.MemberNames.Contains(propertyName) && result.ErrorMessage.Contains("required")));
@@ -47,7 +45,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             };
 
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("CardNumber")));
@@ -67,7 +65,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             };
 
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("CardType")));
@@ -102,7 +100,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             };
 
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("ExpirationMonth")));
@@ -126,7 +124,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             };
 
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("ExpirationYear")));
@@ -156,7 +154,7 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             };
 
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("Currency")));
@@ -182,18 +180,10 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             };
 
             //Act
-            var results = this.ValidateModel(model);
+            var results = ModelValidator.ValidateModel(model);
 
             //Assert
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("Cvv")));
-        }
-
-        private IList<ValidationResult> ValidateModel(object model)
-        {
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(model, null, null);
-            Validator.TryValidateObject(model, validationContext, validationResults, true);
-            return validationResults;
         }
     }
 }

@@ -4,10 +4,11 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using PaymentGatewayApi.Exceptions;
-using PaymentGatewayApi.Models.BankingDTOs;
+using PaymentGatewayApi.Models.BankingDTOs.v1;
 using PaymentGatewayApi.Resources;
 using PaymentGatewayApi.Services.Banking;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -29,7 +30,8 @@ namespace PaymentGatewayApiTests.Services.Banking
         {
             this._handler = new Mock<HttpMessageHandler>();
             this._bankingApiConfiguration = new Mock<IConfiguration>();
-            this._bankingApiConfiguration.SetupGet(x => x["bankingApi:paymentsEndpoint"]).Returns("fakeendpoint");
+            this._bankingApiConfiguration.SetupGet(x => x["bankingApi:paymentsEndpointPost"]).Returns("fakeendpointPost");
+            this._bankingApiConfiguration.SetupGet(x => x["bankingApi:paymentsEndpointGet"]).Returns("fakeendpointGet");
 
             var httpClient = new HttpClient(this._handler.Object)
             {
@@ -133,6 +135,111 @@ namespace PaymentGatewayApiTests.Services.Banking
 
             //Assert
             var ex = Assert.ThrowsAsync<HttpException>(() => this._bankingService.ProcessPayment(bankDto));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_BankingApiUnexpectedError, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_BankingApiUnexpectedError, ex.ErrorCode);
+        }
+
+
+        [Test]
+        public async Task RetrievePaymentReturnsResponseWhenBankingApiRespondsSuccessfully()
+        {
+            //Arrange
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
+            var data = new BankRetrievePaymentsResponseDto()
+            {
+                Payments = new List<BankRetrievedPaymentDetails>()
+                {
+                    new BankRetrievedPaymentDetails()
+                    {
+                        PaymentStatus = PaymentStatus.Success,
+                        PaymentDateTime = new DateTime(2020, 12, 01, 12, 0, 0),
+                        PaymentAmount = 100.00M,
+                        Currency = SupportedCurrencies.GBP,
+                        CardNumber = "5500000000000004",
+                        CardHolder = "Test Account",
+                        CardType = CardType.MasterCard,
+                        ExpirationMonth = "12",
+                        ExpirationYear = "21"
+                    }
+                }
+            };
+            httpResponseMessage.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+
+            this._handler.Protected()
+                         .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                         .ReturnsAsync(httpResponseMessage);
+
+            var bankDto = new BankRetrievePaymentsRequestDto()
+            {
+                TransactionId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+            };
+
+            //Act
+            var result = await this._bankingService.RetrievePayments(bankDto);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<BankRetrievePaymentsResponseDto>(result);
+            Assert.IsNotNull(result.Payments);
+            Assert.IsInstanceOf<List<BankRetrievedPaymentDetails>>(result.Payments);
+            Assert.AreEqual(1, result.Payments.Count);
+
+            var payment = result.Payments[0];
+            Assert.AreEqual(PaymentStatus.Success, payment.PaymentStatus);
+            Assert.AreEqual(new DateTime(2020, 12, 01, 12, 0, 0), payment.PaymentDateTime);
+            Assert.AreEqual(100.00M, payment.PaymentAmount);
+            Assert.AreEqual(SupportedCurrencies.GBP, payment.Currency);
+            Assert.AreEqual("5500000000000004", payment.CardNumber);
+            Assert.AreEqual("Test Account", payment.CardHolder);
+            Assert.AreEqual(CardType.MasterCard, payment.CardType);
+            Assert.AreEqual("12", payment.ExpirationMonth);
+            Assert.AreEqual("21", payment.ExpirationYear);
+        }
+
+        [Test]
+        public void RetrievePaymentThrowsHttpExceptionWhenBankingApiRespondsUnsuccessfully()
+        {
+            //Arrange
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+
+            this._handler.Protected()
+                         .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                         .ReturnsAsync(httpResponseMessage);
+
+            var bankDto = new BankRetrievePaymentsRequestDto()
+            {
+                TransactionId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+            };
+
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.ThrowsAsync<HttpException>(() => this._bankingService.RetrievePayments(bankDto));
+            Assert.AreEqual(HttpStatusCode.BadGateway, ex.StatusCode);
+            Assert.AreEqual(string.Format(Resources.ErrorMessage_BankingApiUnsuccesfulResponse, "500", "Internal Server Error"), ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_BankingApiUnsuccesfulResponse, ex.ErrorCode);
+        }
+
+        [Test]
+        public void RetrievePaymentThrowsHttpExceptionWhenBankingApiCallEncountersAnUnpectedError()
+        {
+            //Arrange
+            var bankDto = new BankRetrievePaymentsRequestDto()
+            {
+                TransactionId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+            };
+
+            var httpClient = new HttpClient(this._handler.Object)
+            {
+                BaseAddress = null
+            };
+            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient);
+
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.ThrowsAsync<HttpException>(() => this._bankingService.RetrievePayments(bankDto));
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_BankingApiUnexpectedError, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_BankingApiUnexpectedError, ex.ErrorCode);

@@ -1,13 +1,16 @@
 ﻿using NUnit.Framework;
 using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Mappers;
-using PaymentGatewayApi.Models.BankingDTOs;
+using PaymentGatewayApi.Models.BankingDTOs.v1;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
 using System;
 using System.Net;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 using PaymentGatewayApi.Resources;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PaymentGatewayApiTests.Mappers
 {
@@ -23,7 +26,7 @@ namespace PaymentGatewayApiTests.Mappers
         }
 
         [Test]
-        public void SuccessfullyMapsPaymentRequestModelToBankingApiRequestDto()
+        public void SuccessfullyMapsPaymentProcessingRequestModelToBankingApiRequestDto()
         {
             //Arrange
             var model = new ProcessPaymentRequestDto()
@@ -55,7 +58,7 @@ namespace PaymentGatewayApiTests.Mappers
         }
 
         [Test]
-        public void MappingPaymentRequestModelToBankingApiRequestDtoThrowsErrorIfModelIsNull()
+        public void MappingPaymentProcessRequestModelToBankingApiRequestDtoThrowsErrorIfModelIsNull()
         {
             //Arrange - none needed.
             //Act - see assertion.
@@ -68,7 +71,7 @@ namespace PaymentGatewayApiTests.Mappers
         }
 
         [Test]
-        public void SuccessfullyMapsBankingApiResponseDtoToPaymentApiResponse()
+        public void SuccessfullyMapsBankingApiResponseDtoToProcessPaymentApiResponse()
         {
             //Arrange
             var transactionId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
@@ -78,7 +81,7 @@ namespace PaymentGatewayApiTests.Mappers
             };
 
             //Act
-            var result = this._mapper.MapBankApiResponseToDomainResponse(bankingApiResponseDto);
+            var result = this._mapper.MapBankApiPostResponseToDomainResponse(bankingApiResponseDto);
 
             //Assert
             Assert.IsNotNull(result);
@@ -87,16 +90,211 @@ namespace PaymentGatewayApiTests.Mappers
         }
 
         [Test]
-        public void MappingBankingApiResponseDtoToPaymentResponseThrowsErrorIfDtoIsNull()
+        public void MappingBankingApiResponseDtoToProcessPaymentResponseThrowsErrorIfDtoIsNull()
         {
             //Arrange - none needed.
             //Act - see assertion.
 
             //Assert
-            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiResponseToDomainResponse(null));
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiPostResponseToDomainResponse(null));
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+        }
+
+
+        [Test]
+        public void SuccessfullyMapsPaymentRetrievalRequestModelToBankingApiRequestDto()
+        {
+            //Arrange
+            var model = new RetrievePaymentsRequestDto()
+            {
+                TransactionId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+            };
+
+            //Act
+            var result = this._mapper.MapRetrievePaymentsRequestModelToBankDto(model);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<BankRetrievePaymentsRequestDto>(result);
+            Assert.AreEqual(result.TransactionId, model.TransactionId);
+        }
+
+        [Test]
+        public void MappingPaymentRetrievalRequestModelToBankingApiRequestDtoThrowsErrorIfModelIsNull()
+        {
+            //Arrange - none needed.
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapRetrievePaymentsRequestModelToBankDto(null));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_MappingError_PaymentApiToBankApi, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_MappingError_PaymentApiToBankApi, ex.ErrorCode);
+        }
+
+        [Test]
+        public void SuccessfullyMapsBankingApiResponseDtoToRetrievePaymentApiResponse()
+        {
+            //Arrange
+            var bankingApiResponseDto = new BankRetrievePaymentsResponseDto()
+            {
+                Payments = new List<BankRetrievedPaymentDetails>()
+                {
+                    new BankRetrievedPaymentDetails()
+                    {
+                        PaymentStatus = PaymentStatus.Success,
+                        PaymentDateTime = new DateTime(2020, 12, 01, 12, 0, 0),
+                        PaymentAmount = 100.00M,
+                        Currency = SupportedCurrencies.GBP,
+                        CardNumber = "5500000000000004",
+                        CardHolder = "Test Account",
+                        CardType = CardType.MasterCard,
+                        ExpirationMonth = "12",
+                        ExpirationYear = "21"
+                    }
+                }
+            };
+
+            //Act
+            var result = this._mapper.MapBankApiGetResponseToDomainResponse(bankingApiResponseDto);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<RetrievePaymentsResponse>(result);
+            Assert.IsNotNull(result.Payments);
+            Assert.IsInstanceOf<List<RetrievedPaymentDetails>>(result.Payments);
+            Assert.AreEqual(1, result.Payments.Count);
+
+            var payment = result.Payments[0];
+            Assert.AreEqual(PaymentStatus.Success, payment.PaymentStatus);
+            Assert.AreEqual(new DateTime(2020, 12, 01, 12, 0, 0), payment.PaymentDateTime);
+            Assert.AreEqual(100.00M, payment.PaymentAmount);
+            Assert.AreEqual(SupportedCurrencies.GBP, payment.Currency);
+            Assert.AreEqual("XXXXXXXXXXXX0004", payment.CardNumber);
+            Assert.AreEqual("Test Account", payment.CardHolder);
+            Assert.AreEqual(CardType.MasterCard, payment.CardType);
+            Assert.AreEqual("12", payment.ExpirationMonth);
+            Assert.AreEqual("21", payment.ExpirationYear);
+        }
+
+        [Test]
+        public void SuccessfullyMapsBankingApiResponseDtoToRetrievePaymentApiResponseWhenMoreThanOnePaymentWasFound()
+        {
+            //Arrange
+            var bankingApiResponseDto = new BankRetrievePaymentsResponseDto()
+            {
+                Payments = new List<BankRetrievedPaymentDetails>()
+                {
+                    new BankRetrievedPaymentDetails()
+                    {
+                        PaymentStatus = PaymentStatus.Success,
+                        PaymentDateTime = new DateTime(2020, 12, 01, 12, 0, 0),
+                        PaymentAmount = 100.00M,
+                        Currency = SupportedCurrencies.GBP,
+                        CardNumber = "5500000000000004",
+                        CardHolder = "Test Account",
+                        CardType = CardType.MasterCard,
+                        ExpirationMonth = "12",
+                        ExpirationYear = "21"
+                    },
+                    
+                    new BankRetrievedPaymentDetails()
+                    {
+                        PaymentStatus = PaymentStatus.Pending,
+                        PaymentDateTime = new DateTime(2020, 11, 02, 11, 0, 0),
+                        PaymentAmount = 200.00M,
+                        Currency = SupportedCurrencies.EUR,
+                        CardNumber = "4111111111111111",
+                        CardHolder = "Test Account",
+                        CardType = CardType.Visa,
+                        ExpirationMonth = "11",
+                        ExpirationYear = "22"
+                    }
+                }
+            };
+
+            //Act
+            var result = this._mapper.MapBankApiGetResponseToDomainResponse(bankingApiResponseDto);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<RetrievePaymentsResponse>(result);
+            Assert.IsNotNull(result.Payments);
+            Assert.IsInstanceOf<List<RetrievedPaymentDetails>>(result.Payments);
+            Assert.AreEqual(2, result.Payments.Count);
+
+            var payment1 = result.Payments[0];
+            Assert.AreEqual(PaymentStatus.Success, payment1.PaymentStatus);
+            Assert.AreEqual(new DateTime(2020, 12, 01, 12, 0, 0), payment1.PaymentDateTime);
+            Assert.AreEqual(100.00M, payment1.PaymentAmount);
+            Assert.AreEqual(SupportedCurrencies.GBP, payment1.Currency);
+            Assert.AreEqual("XXXXXXXXXXXX0004", payment1.CardNumber);
+            Assert.AreEqual("Test Account", payment1.CardHolder);
+            Assert.AreEqual(CardType.MasterCard, payment1.CardType);
+            Assert.AreEqual("12", payment1.ExpirationMonth);
+            Assert.AreEqual("21", payment1.ExpirationYear);
+
+            var payment2 = result.Payments[1];
+            Assert.AreEqual(PaymentStatus.Pending, payment2.PaymentStatus);
+            Assert.AreEqual(new DateTime(2020, 11, 02, 11, 0, 0), payment2.PaymentDateTime);
+            Assert.AreEqual(200.00M, payment2.PaymentAmount);
+            Assert.AreEqual(SupportedCurrencies.EUR, payment2.Currency);
+            Assert.AreEqual("XXXXXXXXXXXX1111", payment2.CardNumber);
+            Assert.AreEqual("Test Account", payment2.CardHolder);
+            Assert.AreEqual(CardType.Visa, payment2.CardType);
+            Assert.AreEqual("11", payment2.ExpirationMonth);
+            Assert.AreEqual("22", payment2.ExpirationYear);
+        }
+
+        [Test]
+        public void MappingBankingApiResponseDtoToRetrievePaymentResponseThrowsErrorIfDtoIsNull()
+        {
+            //Arrange - none needed.
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiGetResponseToDomainResponse(null));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+        }
+
+        [Test]
+        public void MappingBankingApiResponseDtoToRetrievePaymentResponseThrowsErrorIfDtoPaymentsCollectionIsNull()
+        {
+            
+            //Arrange
+            var bankingApiResponseDto = new BankRetrievePaymentsResponseDto()
+            {
+                Payments = null
+            };
+
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiGetResponseToDomainResponse(bankingApiResponseDto));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+        }
+
+        [TestCase("5500000000000004", 4, "XXXXXXXXXXXX0004")] //MasterCard
+        [TestCase("5500000000000004", 3, "XXXXXXXXXXXXX004")]
+        [TestCase("4111111111111111", 4, "XXXXXXXXXXXX1111")] //Visa
+        [TestCase("4111111111111111", 3, "XXXXXXXXXXXXX111")]
+        [TestCase("340000000000009", 4, "XXXXXXXXXXX0009")] //Amex
+        [TestCase("340000000000009", 5, "XXXXXXXXXX00009")]
+        public void MaskStringCorrectlyMasksInputAndLeavesRequiredNumberOfCharactersUnmasked(string unmaskedInput, int numberOfCharactersToLeaveUnmasked, string expectedOutput)
+        {
+            //Arrange - none needed.
+
+            //Act
+            var result = this._mapper.MaskString(unmaskedInput, numberOfCharactersToLeaveUnmasked);
+
+            //Assert
+            Assert.AreEqual(expectedOutput, result);
         }
     }
 }

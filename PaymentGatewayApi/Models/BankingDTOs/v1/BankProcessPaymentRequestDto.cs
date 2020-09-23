@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
-namespace PaymentGatewayApi.Models.BankingDTOs
+namespace PaymentGatewayApi.Models.BankingDTOs.v1
 {
     public class BankProcessPaymentRequestDto
     {

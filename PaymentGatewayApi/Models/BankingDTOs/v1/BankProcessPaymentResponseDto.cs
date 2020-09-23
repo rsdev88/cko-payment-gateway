@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PaymentGatewayApi.Models.BankingDTOs
+namespace PaymentGatewayApi.Models.BankingDTOs.v1
 {
     public class BankProcessPaymentResponseDto
     {

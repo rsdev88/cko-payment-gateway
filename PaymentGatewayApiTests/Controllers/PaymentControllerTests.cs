@@ -9,6 +9,8 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using PaymentGatewayApi.Resources;
+using static PaymentGatewayApi.Models.Enums.PaymentEnums;
+using System.Collections.Generic;
 
 namespace PaymentGatewayApiTests.Controllers
 {
@@ -17,12 +19,14 @@ namespace PaymentGatewayApiTests.Controllers
     {
         private PaymentsController _controller;
         private Mock<IPaymentsProcessingService> _paymentProcessingService;
+        private Mock<IPaymentsRetrievalService> _paymentRetrievalService;
 
         [SetUp]
         public void SetupTests()
         {
             this._paymentProcessingService = new Mock<IPaymentsProcessingService>();
-            this._controller = new PaymentsController(_paymentProcessingService.Object);
+            this._paymentRetrievalService = new Mock<IPaymentsRetrievalService>();
+            this._controller = new PaymentsController(this._paymentProcessingService.Object, this._paymentRetrievalService.Object);
         }
 
         [Test]
@@ -94,6 +98,103 @@ namespace PaymentGatewayApiTests.Controllers
             Assert.IsNotNull(resultError.ValidationErrors[0].ErrorMessages);
             Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages.Length == 1);
             Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == Resources.Validation_ExpirationMonth);
+        }
+
+        [Test]
+        public async Task RetrievePaymentsShouldReturn200ForValidModelState()
+        {
+            //Arrange
+            var model = new RetrievePaymentsRequestDto();
+            var serviceResponse = new RetrievePaymentsResponse()
+            {
+                Payments = new List<RetrievedPaymentDetails>()
+                {
+                    new RetrievedPaymentDetails()
+                    {
+                        PaymentStatus = PaymentStatus.Success,
+                        PaymentDateTime = new DateTime(2020, 12, 01, 12, 0, 0),
+                        PaymentAmount = 100.00M,
+                        Currency = SupportedCurrencies.GBP,
+                        CardNumber = "XXXXXXXXXXXX0004",
+                        CardHolder = "Test Account",
+                        CardType = CardType.MasterCard,
+                        ExpirationMonth = "12",
+                        ExpirationYear = "21"
+                    }
+                }
+            };
+
+            this._paymentRetrievalService.Setup(x => x.RetrievePayments(It.IsAny<RetrievePaymentsRequestDto>()))
+                                            .ReturnsAsync(serviceResponse);
+
+            //Act
+            var result = await this._controller.RetrievePayments(model);
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<OkObjectResult>(result);
+
+            var resultAsOkObject = result as OkObjectResult;
+            Assert.IsTrue(resultAsOkObject.StatusCode == 200);
+            Assert.IsNotNull(resultAsOkObject.Value);
+            Assert.IsInstanceOf<ResponseBaseDto>(resultAsOkObject.Value);
+
+            var resultValue = resultAsOkObject.Value as ResponseBaseDto;
+            Assert.IsTrue(resultValue.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(resultValue.Data);
+            Assert.IsInstanceOf<RetrievePaymentsResponse>(resultValue.Data);
+
+            var resultData = resultValue.Data as RetrievePaymentsResponse;
+            Assert.IsNotNull(resultData.Payments);
+            Assert.IsInstanceOf <List<RetrievedPaymentDetails>>(resultData.Payments);
+            Assert.AreEqual(1, resultData.Payments.Count);
+
+            var resultPayment = resultData.Payments[0];
+            Assert.AreEqual(serviceResponse.Payments[0].PaymentStatus, resultPayment.PaymentStatus);
+            Assert.AreEqual(serviceResponse.Payments[0].PaymentDateTime, resultPayment.PaymentDateTime);
+            Assert.AreEqual(serviceResponse.Payments[0].PaymentAmount, resultPayment.PaymentAmount);
+            Assert.AreEqual(serviceResponse.Payments[0].Currency, resultPayment.Currency);
+            Assert.AreEqual(serviceResponse.Payments[0].CardNumber, resultPayment.CardNumber);
+            Assert.AreEqual(serviceResponse.Payments[0].CardHolder, resultPayment.CardHolder);
+            Assert.AreEqual(serviceResponse.Payments[0].CardType, resultPayment.CardType);
+            Assert.AreEqual(serviceResponse.Payments[0].ExpirationMonth, resultPayment.ExpirationMonth);
+            Assert.AreEqual(serviceResponse.Payments[0].ExpirationYear, resultPayment.ExpirationYear);
+        }
+
+        [Test]
+        public void RetrievePaymentShouldReturn400ForInvalidModelState()
+        {
+            //Arrange
+            var model = new ProcessPaymentRequestDto();
+            this._controller.ModelState.AddModelError("TransactionId", Resources.Validation_TransactionId);
+
+            //Act
+            var result = this._controller.ProcessPayment(model).Result;
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result);
+
+            var resultAsBadRequestObject = result as BadRequestObjectResult;
+            Assert.IsTrue(resultAsBadRequestObject.StatusCode == 400);
+            Assert.IsNotNull(resultAsBadRequestObject.Value);
+            Assert.IsInstanceOf<ResponseBaseDto>(resultAsBadRequestObject.Value);
+
+            var resultValue = resultAsBadRequestObject.Value as ResponseBaseDto;
+            Assert.IsTrue(resultValue.StatusCode == HttpStatusCode.BadRequest);
+            Assert.IsNotNull(resultValue.Data);
+            Assert.IsInstanceOf<ValidationErrorResponse>(resultValue.Data);
+
+            var resultError = resultValue.Data as ValidationErrorResponse;
+            Assert.IsTrue(resultError.ErrorMessage == Resources.ErrorMessage_Validation);
+            Assert.IsTrue(resultError.ErrorDescription == Resources.ErrorDescription_Validation);
+            Assert.IsTrue(resultError.ErrorCode == Resources.ErrorCode_Validation);
+            Assert.IsNotNull(resultError.ValidationErrors);
+            Assert.IsTrue(resultError.ValidationErrors.Count == 1);
+            Assert.IsTrue(resultError.ValidationErrors[0].FieldName == "TransactionId");
+            Assert.IsNotNull(resultError.ValidationErrors[0].ErrorMessages);
+            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages.Length == 1);
+            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == Resources.Validation_TransactionId);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using PaymentGatewayApi.Mappers;
-using PaymentGatewayApi.Models.BankingDTOs;
+using PaymentGatewayApi.Models.BankingDTOs.v1;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
 using PaymentGatewayApi.Services;
@@ -69,7 +69,7 @@ namespace PaymentGatewayApiTests.Services
 
             this._dtoMapper.Setup(x => x.MapProcessPaymentRequestModelToBankDto(It.IsAny<ProcessPaymentRequestDto>())).Returns(bankingRequestDto);
             this._bankingService.Setup(x => x.ProcessPayment(It.IsAny<BankProcessPaymentRequestDto>())).ReturnsAsync(bankingResponseDto);
-            this._dtoMapper.Setup(x => x.MapBankApiResponseToDomainResponse(It.IsAny<BankProcessPaymentResponseDto>())).Returns(processPaymentResponse);
+            this._dtoMapper.Setup(x => x.MapBankApiPostResponseToDomainResponse(It.IsAny<BankProcessPaymentResponseDto>())).Returns(processPaymentResponse);
 
             //Act
             var result = await this._paymentProcessingService.ProcessPayment(model);
