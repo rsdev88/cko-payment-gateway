@@ -1,6 +1,7 @@
-﻿using PaymentGatewayApi.Models.BankingDTOs;
+﻿using PaymentGatewayApi.Models.BankingDTOs.v1;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
+using System.Collections.Generic;
 
 namespace PaymentGatewayApi.Mappers
 {
@@ -8,6 +9,10 @@ namespace PaymentGatewayApi.Mappers
     {
         BankProcessPaymentRequestDto MapProcessPaymentRequestModelToBankDto(ProcessPaymentRequestDto model);
 
-        ProcessPaymentResponse MapBankApiResponseToDomainResponse(BankProcessPaymentResponseDto bankResponseDto);
+        BankRetrievePaymentsRequestDto MapRetrievePaymentsRequestModelToBankDto(RetrievePaymentsRequestDto model);
+
+        ProcessPaymentResponse MapBankApiPostResponseToDomainResponse(BankProcessPaymentResponseDto bankResponseDto);
+
+        RetrievePaymentsResponse MapBankApiGetResponseToDomainResponse(BankRetrievePaymentsResponseDto bankResponseDto);
     }
 }

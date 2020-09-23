@@ -24,5 +24,14 @@
             Visa,
             AmericanExpress,
         }
+
+        public enum PaymentStatus
+        {
+            Success,
+            Pending,
+            FailedInsufficientFunds,
+            FailedIncorrectCardDetails,
+            FailedCardFrozen
+        }
     }
 }

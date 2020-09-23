@@ -212,5 +212,14 @@ namespace PaymentGatewayApi.Resources {
                 return ResourceManager.GetString("Validation_ExpirationYear", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The transactionId must be in the format of a GUID - a 32 digit unique ID made up of hexadecimal characters separated by hyphens like so: 8-4-4-4-12..
+        /// </summary>
+        public static string Validation_TransactionId {
+            get {
+                return ResourceManager.GetString("Validation_TransactionId", resourceCulture);
+            }
+        }
     }
 }

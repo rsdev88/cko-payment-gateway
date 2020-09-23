@@ -24,7 +24,7 @@ namespace PaymentGatewayApi.Services
 
             var bankRequestDto = this._dtoMapper.MapProcessPaymentRequestModelToBankDto(model);
             var bankResponseDto = await this._bankingService.ProcessPayment(bankRequestDto);
-            var processPaymentResponse = this._dtoMapper.MapBankApiResponseToDomainResponse(bankResponseDto);
+            var processPaymentResponse = this._dtoMapper.MapBankApiPostResponseToDomainResponse(bankResponseDto);
 
             return processPaymentResponse;
 

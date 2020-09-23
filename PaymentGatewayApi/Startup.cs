@@ -42,6 +42,7 @@ namespace PaymentGatewayApi
             services.AddControllers();
 
             services.AddTransient<IPaymentsProcessingService, DefaultPaymentsProcessingService>();
+            services.AddTransient<IPaymentsRetrievalService, DefaultPaymentsRetrievalService>();
             services.AddTransient<IDtoMapper, DtoMapper>();
             services.AddHttpClient<IBankingService, BankingService>(client =>
                 {
