@@ -58,13 +58,15 @@ namespace PaymentGatewayApiTests.Services
             var transactionId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
             var bankingResponseDto = new BankProcessPaymentResponseDto()
             {
-                TransactionId = transactionId
+                TransactionId = transactionId,
+                PaymentStatus = PaymentStatus.Success
             };
 
             var guid = new Guid(transactionId);
             var processPaymentResponse = new ProcessPaymentResponse()
             {
-                TransactionId = guid
+                TransactionId = guid,
+                PaymentStatus = PaymentStatus.Success
             };
 
             this._dtoMapper.Setup(x => x.MapProcessPaymentRequestModelToBankDto(It.IsAny<ProcessPaymentRequestDto>())).Returns(bankingRequestDto);
@@ -78,7 +80,7 @@ namespace PaymentGatewayApiTests.Services
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ProcessPaymentResponse>(result);
             Assert.AreEqual(guid, result.TransactionId);
-
+            Assert.AreEqual(PaymentStatus.Success, result.PaymentStatus);
         }
     }
 }
