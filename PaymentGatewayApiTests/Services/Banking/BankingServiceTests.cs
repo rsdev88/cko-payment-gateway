@@ -49,7 +49,8 @@ namespace PaymentGatewayApiTests.Services.Banking
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
             var data = new BankProcessPaymentResponseDto()
             {
-                TransactionId = transactionId
+                TransactionId = transactionId,
+                PaymentStatus = PaymentStatus.Success
             };
             httpResponseMessage.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
@@ -76,6 +77,7 @@ namespace PaymentGatewayApiTests.Services.Banking
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<BankProcessPaymentResponseDto>(result);
             Assert.AreEqual(transactionId, result.TransactionId);
+            Assert.AreEqual(PaymentStatus.Success, result.PaymentStatus);
         }
 
         [Test]

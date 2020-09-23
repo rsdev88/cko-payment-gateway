@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
 namespace PaymentGatewayApi.Models.ResponseEntities
 {
@@ -10,5 +8,8 @@ namespace PaymentGatewayApi.Models.ResponseEntities
     {
         [JsonProperty("transactionId")]
         public Guid TransactionId { get; set; }
+
+        [JsonProperty("paymentStatus")]
+        public PaymentStatus PaymentStatus { get; set; }
     }
 }

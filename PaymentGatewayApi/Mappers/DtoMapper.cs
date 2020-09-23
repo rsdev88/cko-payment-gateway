@@ -67,7 +67,8 @@ namespace PaymentGatewayApi.Mappers
 
             var processPaymentResponse = new ProcessPaymentResponse()
             {
-                TransactionId = new Guid(bankResponseDto.TransactionId)
+                TransactionId = new Guid(bankResponseDto.TransactionId),
+                PaymentStatus = bankResponseDto.PaymentStatus
             };
 
             return processPaymentResponse;

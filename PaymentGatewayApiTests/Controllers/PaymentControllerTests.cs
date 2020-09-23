@@ -37,7 +37,8 @@ namespace PaymentGatewayApiTests.Controllers
             var guid = new Guid();
             var serviceResponse = new ProcessPaymentResponse()
             {
-                TransactionId = guid
+                TransactionId = guid,
+                PaymentStatus = PaymentStatus.Success
             };
 
             this._paymentProcessingService.Setup(x => x.ProcessPayment(It.IsAny<ProcessPaymentRequestDto>()))
@@ -62,6 +63,7 @@ namespace PaymentGatewayApiTests.Controllers
 
             var resultData = resultValue.Data as ProcessPaymentResponse;
             Assert.AreEqual(guid, resultData.TransactionId);
+            Assert.AreEqual(PaymentStatus.Success, resultData.PaymentStatus);
         }
 
         [Test]

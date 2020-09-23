@@ -8,9 +8,7 @@ using System;
 using System.Net;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 using PaymentGatewayApi.Resources;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PaymentGatewayApiTests.Mappers
 {
@@ -77,7 +75,8 @@ namespace PaymentGatewayApiTests.Mappers
             var transactionId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
             var bankingApiResponseDto = new BankProcessPaymentResponseDto()
             {
-                TransactionId = transactionId
+                TransactionId = transactionId,
+                PaymentStatus = PaymentStatus.Success
             };
 
             //Act
@@ -86,7 +85,8 @@ namespace PaymentGatewayApiTests.Mappers
             //Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<ProcessPaymentResponse>(result);
-            Assert.AreEqual(result.TransactionId, new Guid(transactionId));
+            Assert.AreEqual(new Guid(transactionId), result.TransactionId);
+            Assert.AreEqual(PaymentStatus.Success, result.PaymentStatus);
         }
 
         [Test]
