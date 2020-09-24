@@ -37,8 +37,8 @@ namespace APIAuthentication.Handlers
             {
                 //The thrown HTTPExceptions in this class will be caught, logged and handled within the global exception middleware.
                 throw new HttpException(HttpStatusCode.Unauthorized, 
-                                        Resources.ErrorCode_UnauthenticatedMissingAuthenticationHeader, 
-                                        Resources.ErrorMessage_UnauthenticatedMissingAuthenticationHeader);
+                                        Resources.ErrorCode_UnauthenticatedMissingAuthorisationHeader, 
+                                        Resources.ErrorMessage_UnauthenticatedMissingAuthorisationHeader);
             }
 
             User user;
@@ -54,8 +54,8 @@ namespace APIAuthentication.Handlers
             catch
             {
                 throw new HttpException(HttpStatusCode.Unauthorized,
-                        Resources.ErrorCode_UnauthenticatedInvalidAuthenticationHeader,
-                        Resources.ErrorMessage_UnauthenticatedInvalidAuthenticationHeader);
+                        Resources.ErrorCode_UnauthenticatedInvalidAuthorisationHeader,
+                        Resources.ErrorMessage_UnauthenticatedInvalidAuthorisationHeader);
             }
 
             if (user == null)

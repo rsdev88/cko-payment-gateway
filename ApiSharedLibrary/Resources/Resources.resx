@@ -135,10 +135,10 @@
   <data name="ErrorCode_UnauthenticatedIncorrectCredentials" xml:space="preserve">
     <value>7890</value>
   </data>
-  <data name="ErrorCode_UnauthenticatedInvalidAuthenticationHeader" xml:space="preserve">
+  <data name="ErrorCode_UnauthenticatedInvalidAuthorisationHeader" xml:space="preserve">
     <value>6789</value>
   </data>
-  <data name="ErrorCode_UnauthenticatedMissingAuthenticationHeader" xml:space="preserve">
+  <data name="ErrorCode_UnauthenticatedMissingAuthorisationHeader" xml:space="preserve">
     <value>5678</value>
   </data>
   <data name="ErrorCode_Validation" xml:space="preserve">
@@ -166,13 +166,13 @@
     <value>An internal server error occurred when mapping from the request DTO to the banking API request DTO.</value>
   </data>
   <data name="ErrorMessage_UnauthenticatedIncorrectCredentials" xml:space="preserve">
-    <value>Authentication failed: The credentials received in the Authentication header were incorrect.</value>
+    <value>Authentication failed: The credentials received in the Authorisation header were incorrect.</value>
   </data>
-  <data name="ErrorMessage_UnauthenticatedInvalidAuthenticationHeader" xml:space="preserve">
-    <value>Authentication failed: The request received contained an invalid Authentication header. Please try using Basic Authentication.</value>
+  <data name="ErrorMessage_UnauthenticatedInvalidAuthorisationHeader" xml:space="preserve">
+    <value>Authentication failed: The request received contained an invalid 'Authorization' header. Please try using Basic Authentication.</value>
   </data>
-  <data name="ErrorMessage_UnauthenticatedMissingAuthenticationHeader" xml:space="preserve">
-    <value>Authentication failed: The request received was missing an Authentication header. Please retry using Basic Authentication.</value>
+  <data name="ErrorMessage_UnauthenticatedMissingAuthorisationHeader" xml:space="preserve">
+    <value>Authentication failed: The request received was missing an 'Authorization' header. Please retry using Basic Authentication.</value>
   </data>
   <data name="ErrorMessage_Validation" xml:space="preserve">
     <value>One or more validation errors were found in the request.</value>

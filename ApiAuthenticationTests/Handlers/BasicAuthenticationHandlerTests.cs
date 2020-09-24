@@ -96,8 +96,8 @@ namespace ApiAuthenticationTests.Handlers
             //Assert
             var ex = Assert.ThrowsAsync<HttpException>(() => this._authenticationHandler.AuthenticateAsync());
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual(Resources.ErrorMessage_UnauthenticatedMissingAuthenticationHeader, ex.Message);
-            Assert.AreEqual(Resources.ErrorCode_UnauthenticatedMissingAuthenticationHeader, ex.ErrorCode);
+            Assert.AreEqual(Resources.ErrorMessage_UnauthenticatedMissingAuthorisationHeader, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_UnauthenticatedMissingAuthorisationHeader, ex.ErrorCode);
         }
 
         [Test]
@@ -118,8 +118,8 @@ namespace ApiAuthenticationTests.Handlers
             //Assert
             var ex = Assert.ThrowsAsync<HttpException>(() => this._authenticationHandler.AuthenticateAsync());
             Assert.AreEqual(HttpStatusCode.Unauthorized, ex.StatusCode);
-            Assert.AreEqual(Resources.ErrorMessage_UnauthenticatedInvalidAuthenticationHeader, ex.Message);
-            Assert.AreEqual(Resources.ErrorCode_UnauthenticatedInvalidAuthenticationHeader, ex.ErrorCode);
+            Assert.AreEqual(Resources.ErrorMessage_UnauthenticatedInvalidAuthorisationHeader, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_UnauthenticatedInvalidAuthorisationHeader, ex.ErrorCode);
         }
 
         [Test]
