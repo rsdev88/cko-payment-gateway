@@ -1,8 +1,8 @@
-﻿using PaymentGatewayApi.Exceptions;
+﻿using Microsoft.Extensions.Logging;
+using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Models.BankingDTOs.v1;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
-using PaymentGatewayApi.Services.Banking;
 using System;
 using System.Linq;
 using System.Net;
@@ -15,10 +15,19 @@ namespace PaymentGatewayApi.Mappers
     /// </summary>
     public class DtoMapper : IDtoMapper
     {
+        private readonly ILogger<DtoMapper> _logger;
+
+        public DtoMapper(ILogger<DtoMapper> logger)
+        {
+            this._logger = logger;
+        }
+
         public BankProcessPaymentRequestDto MapProcessPaymentRequestModelToBankDto(ProcessPaymentRequestDto model)
         {
             if (model == null)
             {
+                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, (typeof(ProcessPaymentRequestDto).Name));
+
                 throw new HttpException(HttpStatusCode.InternalServerError, 
                                         Resources.Resources.ErrorCode_MappingError_PaymentApiToBankApi, 
                                         Resources.Resources.ErrorMessage_MappingError_PaymentApiToBankApi);
@@ -43,6 +52,8 @@ namespace PaymentGatewayApi.Mappers
         {
             if (model == null)
             {
+                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, (typeof(RetrievePaymentsRequestDto).Name));
+
                 throw new HttpException(HttpStatusCode.InternalServerError,
                                         Resources.Resources.ErrorCode_MappingError_PaymentApiToBankApi,
                                         Resources.Resources.ErrorMessage_MappingError_PaymentApiToBankApi);
@@ -60,6 +71,8 @@ namespace PaymentGatewayApi.Mappers
         {
             if (bankResponseDto == null)
             {
+                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, (typeof(BankProcessPaymentResponseDto).Name));
+
                 throw new HttpException(HttpStatusCode.InternalServerError,
                                         Resources.Resources.ErrorCode_MappingError_BankApiToPaymentApi,
                                         Resources.Resources.ErrorMessage_MappingError_BankApiToPaymentApi);
@@ -78,6 +91,9 @@ namespace PaymentGatewayApi.Mappers
         {
             if (bankResponseDto == null || bankResponseDto.Payments == null)
             {
+                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, 
+                                      bankResponseDto == null ? (typeof(BankRetrievePaymentsResponseDto).Name) : (typeof(BankRetrievedPaymentDetails).Name));
+
                 throw new HttpException(HttpStatusCode.InternalServerError,
                                         Resources.Resources.ErrorCode_MappingError_BankApiToPaymentApi,
                                         Resources.Resources.ErrorMessage_MappingError_BankApiToPaymentApi);
@@ -102,10 +118,12 @@ namespace PaymentGatewayApi.Mappers
             return retrievePaymentResponse;
         }
 
-        //Replaces all characters in a string with 'X', except for the final specified number of digits.
-        //e.g.  For a card number
-        //      MaskString("5500000000000004", 4) 
-        //      Returns "XXXXXXXXXXXX0004"
+        /// <summary>
+        /// Replaces all characters in a string with 'X', except for the final specified number of digits.
+        /// e.g. For a card number
+        ///      MaskString("5500000000000004", 4) 
+        ///      Returns "XXXXXXXXXXXX0004"
+        /// </summary>
         public string MaskString(string value, int numberOfCharactersToLeaveUnchanged)
         {
             var newCardNumber = new StringBuilder();

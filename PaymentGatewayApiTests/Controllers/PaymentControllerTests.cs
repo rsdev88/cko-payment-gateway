@@ -8,9 +8,9 @@ using PaymentGatewayApi.Services;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using PaymentGatewayApi.Resources;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace PaymentGatewayApiTests.Controllers
 {
@@ -20,13 +20,15 @@ namespace PaymentGatewayApiTests.Controllers
         private PaymentsController _controller;
         private Mock<IPaymentsProcessingService> _paymentProcessingService;
         private Mock<IPaymentsRetrievalService> _paymentRetrievalService;
+        private Mock<ILogger<PaymentsController>> _logger;
 
         [SetUp]
         public void SetupTests()
         {
             this._paymentProcessingService = new Mock<IPaymentsProcessingService>();
             this._paymentRetrievalService = new Mock<IPaymentsRetrievalService>();
-            this._controller = new PaymentsController(this._paymentProcessingService.Object, this._paymentRetrievalService.Object);
+            this._logger = new Mock<ILogger<PaymentsController>>();
+            this._controller = new PaymentsController(this._paymentProcessingService.Object, this._paymentRetrievalService.Object, this._logger.Object);
         }
 
         [Test]

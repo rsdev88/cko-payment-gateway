@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using PaymentGatewayApi.Exceptions;
@@ -15,6 +17,14 @@ namespace PaymentGatewayApiTests.Middleware
     [TestFixture]
     public class GlobalExceptionMiddlewareTests
     {
+        private Mock<ILogger<GlobalExceptionMiddleware>> _logger;
+
+        [SetUp]
+        public void GlobalExceptionMiddlewareTests_Setup()
+        {
+            this._logger = new Mock<ILogger<GlobalExceptionMiddleware>>();
+        }
+
         [Test]
         public async Task MiddlewareShouldWriteA500ErrorToResponseWhenUnhandledExceptionOccurrs()
         {
@@ -22,7 +32,8 @@ namespace PaymentGatewayApiTests.Middleware
             var middleware = new GlobalExceptionMiddleware(next: (innerHttpContext) =>
             {
                 throw new Exception();
-            });
+            }, 
+            this._logger.Object);
 
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
@@ -46,6 +57,13 @@ namespace PaymentGatewayApiTests.Middleware
             Assert.AreEqual(Resources.ErrorCode_InternalServerErrorCatchAll, resultError.ErrorCode);
             Assert.AreEqual(Resources.ErrorMessage_InternalServerErrorCatchAll, resultError.ErrorMessage);
             Assert.AreEqual(Resources.ErrorDescription_Generic, resultError.ErrorDescription);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
         [Test]
@@ -59,7 +77,8 @@ namespace PaymentGatewayApiTests.Middleware
             var middleware = new GlobalExceptionMiddleware(next: (innerHttpContext) =>
             {
                 throw new HttpException(statusCode, errorCode, errorMessage);
-            });
+            },
+            this._logger.Object);
 
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
@@ -83,6 +102,13 @@ namespace PaymentGatewayApiTests.Middleware
             Assert.AreEqual(errorCode, resultError.ErrorCode);
             Assert.AreEqual(errorMessage, resultError.ErrorMessage);
             Assert.AreEqual(Resources.ErrorDescription_Generic, resultError.ErrorDescription);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
     }
 }

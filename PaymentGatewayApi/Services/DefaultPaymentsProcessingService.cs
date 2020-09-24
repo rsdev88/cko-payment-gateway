@@ -2,7 +2,6 @@
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
 using PaymentGatewayApi.Services.Banking;
-using System;
 using System.Threading.Tasks;
 
 namespace PaymentGatewayApi.Services
@@ -20,8 +19,6 @@ namespace PaymentGatewayApi.Services
 
         public async Task<ProcessPaymentResponse> ProcessPayment(ProcessPaymentRequestDto model)
         {
-            //Todo: add logging
-
             var bankRequestDto = this._dtoMapper.MapProcessPaymentRequestModelToBankDto(model);
             var bankResponseDto = await this._bankingService.ProcessPayment(bankRequestDto);
             var processPaymentResponse = this._dtoMapper.MapBankApiPostResponseToDomainResponse(bankResponseDto);

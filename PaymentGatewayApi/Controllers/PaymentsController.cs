@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
@@ -15,15 +16,19 @@ namespace PaymentGatewayApi.Controllers
     {
         private readonly IPaymentsProcessingService _paymentsProcessingService;
         private readonly IPaymentsRetrievalService _paymentsRetrievalService;
+        private readonly ILogger<PaymentsController> _logger;
 
-        public PaymentsController(IPaymentsProcessingService paymentsProcessingService, IPaymentsRetrievalService paymentsRetrievalService)
+        public PaymentsController(IPaymentsProcessingService paymentsProcessingService, 
+                                  IPaymentsRetrievalService paymentsRetrievalService,
+                                  ILogger<PaymentsController> logger)
         {
             this._paymentsProcessingService = paymentsProcessingService;
             this._paymentsRetrievalService = paymentsRetrievalService;
+            this._logger = logger;
         }
 
         [HttpPost]
-        [ModelValidation]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentRequestDto paymentDetails)
         {
             var responseData = await this._paymentsProcessingService.ProcessPayment(paymentDetails);
@@ -36,7 +41,7 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpGet("{transactionid}")]
-        [ModelValidation]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> RetrievePayments(RetrievePaymentsRequestDto model)
         {
             var responseData = await this._paymentsRetrievalService.RetrievePayments(model);

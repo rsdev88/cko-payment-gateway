@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
@@ -23,6 +25,7 @@ namespace PaymentGatewayApiTests.Services.Banking
     {
         private Mock<HttpMessageHandler> _handler;
         private Mock<IConfiguration> _bankingApiConfiguration;
+        private Mock<ILogger<BankingService>> _logger;
         private BankingService _bankingService;
 
         [SetUp]
@@ -32,13 +35,14 @@ namespace PaymentGatewayApiTests.Services.Banking
             this._bankingApiConfiguration = new Mock<IConfiguration>();
             this._bankingApiConfiguration.SetupGet(x => x["bankingApi:paymentsEndpointPost"]).Returns("fakeendpointPost");
             this._bankingApiConfiguration.SetupGet(x => x["bankingApi:paymentsEndpointGet"]).Returns("fakeendpointGet");
+            this._logger = new Mock<ILogger<BankingService>>();
 
             var httpClient = new HttpClient(this._handler.Object)
             {
                 BaseAddress = new Uri("http://fakeapi.com/")
             };
 
-            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient);
+            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient, this._logger.Object);
         }
 
         [Test]
@@ -131,7 +135,7 @@ namespace PaymentGatewayApiTests.Services.Banking
             {
                 BaseAddress = null
             };
-            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient);
+            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient, this._logger.Object);
 
             //Act - see assertion.
 
@@ -140,6 +144,13 @@ namespace PaymentGatewayApiTests.Services.Banking
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_BankingApiUnexpectedError, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_BankingApiUnexpectedError, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
 
@@ -236,7 +247,7 @@ namespace PaymentGatewayApiTests.Services.Banking
             {
                 BaseAddress = null
             };
-            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient);
+            this._bankingService = new BankingService(this._bankingApiConfiguration.Object, httpClient, this._logger.Object);
 
             //Act - see assertion.
 
@@ -245,6 +256,13 @@ namespace PaymentGatewayApiTests.Services.Banking
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_BankingApiUnexpectedError, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_BankingApiUnexpectedError, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
     }
 }

@@ -159,6 +159,18 @@
   <data name="ErrorMessage_Validation" xml:space="preserve">
     <value>One or more validation errors were found in the request.</value>
   </data>
+  <data name="Logging_BankingServiceUnexpected" xml:space="preserve">
+    <value>The BankingService encountered the following unexpected error: {0}</value>
+  </data>
+  <data name="Logging_DtoMapperNullInput" xml:space="preserve">
+    <value>The DtoMapper could not map from a null {0}</value>
+  </data>
+  <data name="Logging_GlobalExceptionHandler" xml:space="preserve">
+    <value>The application encountered the following error and will response to the client accordingly: {0} </value>
+  </data>
+  <data name="Logging_ModelValidationError" xml:space="preserve">
+    <value>Model validation failed due to the errors with the following request properties: {0}</value>
+  </data>
   <data name="Validation_CvvRegex" xml:space="preserve">
     <value>The CVV must be 3 or 4 digits between 0 and 9.</value>
   </data>

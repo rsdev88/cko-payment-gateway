@@ -187,6 +187,42 @@ namespace PaymentGatewayApi.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The BankingService encountered the following unexpected error: {0}.
+        /// </summary>
+        public static string Logging_BankingServiceUnexpected {
+            get {
+                return ResourceManager.GetString("Logging_BankingServiceUnexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The DtoMapper could not map from a null {0}.
+        /// </summary>
+        public static string Logging_DtoMapperNullInput {
+            get {
+                return ResourceManager.GetString("Logging_DtoMapperNullInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application encountered the following error and will response to the client accordingly: {0} .
+        /// </summary>
+        public static string Logging_GlobalExceptionHandler {
+            get {
+                return ResourceManager.GetString("Logging_GlobalExceptionHandler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model validation failed due to the errors with the following request properties: {0}.
+        /// </summary>
+        public static string Logging_ModelValidationError {
+            get {
+                return ResourceManager.GetString("Logging_ModelValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The CVV must be 3 or 4 digits between 0 and 9..
         /// </summary>
         public static string Validation_CvvRegex {
