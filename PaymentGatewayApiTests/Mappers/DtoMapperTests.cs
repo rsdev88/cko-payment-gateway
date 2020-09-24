@@ -120,6 +120,86 @@ namespace PaymentGatewayApiTests.Mappers
                                             (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
+        [Test]
+        public void MappingBankingApiResponseDtoToProcessPaymentResponseThrowsErrorIfTransactionIdIsMissing()
+        {
+            //Arrange
+            var bankingApiResponseDto = new BankProcessPaymentResponseDto()
+            {
+                TransactionId = null,
+                PaymentStatus = PaymentStatus.Success
+            };
+
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiPostResponseToDomainResponse(bankingApiResponseDto));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
+        }
+
+        [Test]
+        public void MappingBankingApiResponseDtoToProcessPaymentResponseThrowsErrorIfPaymentStatusIsMissing()
+        {
+            //Arrange
+            var transactionId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
+            var bankingApiResponseDto = new BankProcessPaymentResponseDto()
+            {
+                TransactionId = transactionId
+            };
+
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiPostResponseToDomainResponse(bankingApiResponseDto));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
+        }
+
+        [TestCase(0)]
+        [TestCase(6)]
+        public void MappingBankingApiResponseDtoToProcessPaymentResponseThrowsErrorIfPaymentStatusIsOutsideKnownEnumRange(int paymentStatus)
+        {
+            //Arrange
+            var transactionId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
+            var bankingApiResponseDto = new BankProcessPaymentResponseDto()
+            {
+                TransactionId = transactionId,
+                PaymentStatus = (PaymentStatus)paymentStatus
+            };
+
+            //Act - see assertion.
+
+            //Assert
+            var ex = Assert.Throws<HttpException>(() => this._mapper.MapBankApiPostResponseToDomainResponse(bankingApiResponseDto));
+            Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
+            Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
+            Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
+        }
+
 
         [Test]
         public void SuccessfullyMapsPaymentRetrievalRequestModelToBankingApiRequestDto()

@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Text;
+using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 
 namespace PaymentGatewayApi.Mappers
 {
@@ -70,7 +71,7 @@ namespace PaymentGatewayApi.Mappers
 
         public ProcessPaymentResponse MapBankApiPostResponseToDomainResponse(BankProcessPaymentResponseDto bankResponseDto)
         {
-            if (bankResponseDto == null)
+            if (bankResponseDto == null || bankResponseDto.TransactionId == null || !Enum.IsDefined(typeof(PaymentStatus), bankResponseDto.PaymentStatus))
             {
                 this._logger.LogError(Resources.Logging_DtoMapperNullInput, (typeof(BankProcessPaymentResponseDto).Name));
 

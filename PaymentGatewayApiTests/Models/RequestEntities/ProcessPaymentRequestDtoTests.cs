@@ -130,6 +130,47 @@ namespace PaymentGatewayApiTests.Models.RequestEntities
             Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("ExpirationYear")));
         }
 
+        [TestCase(0.00, false)]
+        [TestCase(1.00, false)]
+        [TestCase(100.00, false)]
+        [TestCase(1000.00, false)]
+        [TestCase(10000.00, false)]
+        [TestCase(10000.00, false)]
+        [TestCase(100000.00, false)]
+        [TestCase(1000000.00, false)]
+        [TestCase(10000000.00, false)]
+        [TestCase(100000000.00, false)]
+        [TestCase(1000000000.00, false)]
+        [TestCase(10000000000.00, false)]
+        [TestCase(100000000000.00, false)]
+        [TestCase(1000000000000.00, false)]
+        [TestCase(10000000000000.00, false)]
+        [TestCase(-0.01, true)]
+        [TestCase(-0.001, true)]
+        [TestCase(-0.0001, true)]
+        [TestCase(-0.00001, true)]
+        [TestCase(-0.000001, true)]
+        [TestCase(-0.0000001, true)]
+        [TestCase(-0.00000001, true)]
+        [TestCase(-0.000000001, true)]
+        [TestCase(-0.0000000001, true)]
+        [TestCase(-0.00000000001, true)]
+        //The tests for the custom validation logic which require the current date are in the CustomAttributes folder.
+        public void ValidatePaymentAmount(decimal paymentAmount, bool shouldFailValidation)
+        {
+            //Arrange
+            var model = new ProcessPaymentRequestDto()
+            {
+                PaymentAmount = paymentAmount
+            };
+
+            //Act
+            var results = ModelValidator.ValidateModel(model);
+
+            //Assert
+            Assert.AreEqual(shouldFailValidation, results.Any(result => result.MemberNames.Contains("PaymentAmount")));
+        }
+
         [TestCase(0, false)] //British pounds
         [TestCase(1, false)] //US dollars
         [TestCase(2, false)] //Euros

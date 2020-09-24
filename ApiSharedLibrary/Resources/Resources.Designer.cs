@@ -304,6 +304,15 @@ namespace ApiSharedLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The paymentAmount must be a number greater than 0.00..
+        /// </summary>
+        public static string Validation_PaymentAmount {
+            get {
+                return ResourceManager.GetString("Validation_PaymentAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The transactionId must be in the format of a GUID - a 32 digit unique ID made up of hexadecimal characters separated by hyphens like so: 8-4-4-4-12..
         /// </summary>
         public static string Validation_TransactionId {
