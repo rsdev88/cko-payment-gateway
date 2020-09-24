@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Models.BankingDTOs.v1;
-using PaymentGatewayApi.Resources;
+using ApiSharedLibrary.Resources;
 using PaymentGatewayApi.Services.Banking;
 using System;
 using System.Collections.Generic;

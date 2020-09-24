@@ -132,6 +132,15 @@
   <data name="ErrorCode_MappingError_PaymentApiToBankApi" xml:space="preserve">
     <value>2345</value>
   </data>
+  <data name="ErrorCode_UnauthenticatedIncorrectCredentials" xml:space="preserve">
+    <value>7890</value>
+  </data>
+  <data name="ErrorCode_UnauthenticatedMissingAuthenticationHeader" xml:space="preserve">
+    <value>5678</value>
+  </data>
+  <data name="ErrorCode_UnthenticatedInvalidAuthenticationHeader" xml:space="preserve">
+    <value>6789</value>
+  </data>
   <data name="ErrorCode_Validation" xml:space="preserve">
     <value>1234</value>
   </data>
@@ -155,6 +164,15 @@
   </data>
   <data name="ErrorMessage_MappingError_PaymentApiToBankApi" xml:space="preserve">
     <value>An internal server error occurred when mapping from the request DTO to the banking API request DTO.</value>
+  </data>
+  <data name="ErrorMessage_UnauthenticatedIncorrectCredentials" xml:space="preserve">
+    <value>Authentication failed: The credentials received in the Authentication header were incorrect.</value>
+  </data>
+  <data name="ErrorMessage_UnauthenticatedInvalidAuthenticationHeader" xml:space="preserve">
+    <value>Authentication failed: The request received contained an invalid Authentication header. Please try using Basic Authentication.</value>
+  </data>
+  <data name="ErrorMessage_UnauthenticatedMissingAuthenticationHeader" xml:space="preserve">
+    <value>Authentication failed: The request received was missing an Authentication header. Please retry using Basic Authentication.</value>
   </data>
   <data name="ErrorMessage_Validation" xml:space="preserve">
     <value>One or more validation errors were found in the request.</value>

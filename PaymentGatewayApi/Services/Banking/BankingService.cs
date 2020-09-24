@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+﻿using ApiSharedLibrary.Resources;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -71,8 +72,8 @@ namespace PaymentGatewayApi.Services.Banking
                 }
 
                 throw new HttpException(HttpStatusCode.BadGateway,
-                                        Resources.Resources.ErrorCode_BankingApiUnsuccesfulResponse,
-                                        string.Format(Resources.Resources.ErrorMessage_BankingApiUnsuccesfulResponse, ((int)response.StatusCode).ToString(), response.ReasonPhrase));
+                                        Resources.ErrorCode_BankingApiUnsuccesfulResponse,
+                                        string.Format(Resources.ErrorMessage_BankingApiUnsuccesfulResponse, ((int)response.StatusCode).ToString(), response.ReasonPhrase));
             }
             catch (HttpException)
             {
@@ -83,10 +84,10 @@ namespace PaymentGatewayApi.Services.Banking
             catch (Exception ex)
             {
                 //The global exception middleware will also catch and log this HTTP exception but we also want to log the original exception message.
-                this._logger.LogError(Resources.Resources.Logging_BankingServiceUnexpected, ex.Message);
+                this._logger.LogError(Resources.Logging_BankingServiceUnexpected, ex.Message);
                 throw new HttpException(HttpStatusCode.InternalServerError,
-                                        Resources.Resources.ErrorCode_BankingApiUnexpectedError,
-                                        Resources.Resources.ErrorMessage_BankingApiUnexpectedError);
+                                        Resources.ErrorCode_BankingApiUnexpectedError,
+                                        Resources.ErrorMessage_BankingApiUnexpectedError);
             }
             finally
             {

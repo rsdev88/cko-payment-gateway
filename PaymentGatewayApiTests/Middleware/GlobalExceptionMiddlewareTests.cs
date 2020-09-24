@@ -6,7 +6,7 @@ using NUnit.Framework;
 using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Middleware;
 using PaymentGatewayApi.Models.ResponseEntities;
-using PaymentGatewayApi.Resources;
+using ApiSharedLibrary.Resources;
 using System;
 using System.IO;
 using System.Net;

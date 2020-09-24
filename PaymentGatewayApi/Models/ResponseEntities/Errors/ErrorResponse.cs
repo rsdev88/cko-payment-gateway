@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ApiSharedLibrary.Resources;
+using Newtonsoft.Json;
 
 namespace PaymentGatewayApi.Models.ResponseEntities
 {
@@ -8,7 +9,7 @@ namespace PaymentGatewayApi.Models.ResponseEntities
         public string ErrorMessage { get; set; }
 
         [JsonProperty("errorDescription")]
-        public string ErrorDescription { get; set; } = Resources.Resources.ErrorDescription_Generic;
+        public string ErrorDescription { get; set; } = Resources.ErrorDescription_Generic;
 
         [JsonProperty("errorCode")]
         public string ErrorCode { get; set; }

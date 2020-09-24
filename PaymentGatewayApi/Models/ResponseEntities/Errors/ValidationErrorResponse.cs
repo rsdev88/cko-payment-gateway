@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using ApiSharedLibrary.Resources;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace PaymentGatewayApi.Models.ResponseEntities
     {
         public ValidationErrorResponse(ModelStateDictionary model)
         {
-            this.ErrorMessage = Resources.Resources.ErrorMessage_Validation;
-            this.ErrorDescription = Resources.Resources.ErrorDescription_Validation;
-            this.ErrorCode = Resources.Resources.ErrorCode_Validation;
+            this.ErrorMessage = Resources.ErrorMessage_Validation;
+            this.ErrorDescription = Resources.ErrorDescription_Validation;
+            this.ErrorCode = Resources.ErrorCode_Validation;
 
             this.ValidationErrors = new List<ValidationError>();
             this.ValidationErrors = model.Select(item => new ValidationError(item.Key, item.Value.Errors)).ToList();

@@ -8,7 +8,7 @@ using Moq;
 using NUnit.Framework;
 using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Models.ResponseEntities;
-using PaymentGatewayApi.Resources;
+using ApiSharedLibrary.Resources;
 using System;
 using System.Collections.Generic;
 using System.Net;
