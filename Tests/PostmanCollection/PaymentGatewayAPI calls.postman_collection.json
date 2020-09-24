@@ -1,0 +1,1510 @@
+{
+	"info": {
+		"_postman_id": "851a3074-3f5a-431c-a78b-3d5374797ce4",
+		"name": "PaymentGatewayAPI calls",
+		"description": "This is a complete set of calls to the PaymentGateway API that I've created as part of the recruitment process.\r\nThe calls demonstrate all of the possible request and response formats, errors, etc that the API is capable of processing and returning.\r\nAll of the calls have been configured to use the same Basic Authentication header, exception for the ones that test the authentication itself (these have been configured to fail authentication and receive a 401 response). As the credentials are only used for this recruitment assignment, I haven't hidden them behind variables.\r\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Successful responses",
+			"item": [
+				{
+					"name": "RetrievePayments: 200 - Single payment",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+							]
+						},
+						"description": "A GET call which receives a successful 200-OK response that contains one matched payment from the acquiring bank."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 200 - Multiple payments",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+							]
+						},
+						"description": "A GET call which receives a successful 200-OK response that contains multiple matched payments from the aquiring bank."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 200 - No payments found",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-bbbbbbbbbbbb",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-bbbbbbbbbbbb"
+							]
+						},
+						"description": "A GET call which receives a successful 200-OK response that contains no matched payments from the acquiring bank."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 200 - Payment successful",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a successful 200-OK response that contains a transactionId and paymentStatus from the aquiring bank."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 200 - Payment pending",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"4111111111111111\",\r\n  \"cardHolder\" : \"Pending payment\",\r\n  \"cardType\" : \"visa\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a successful 200-OK response that contains a transactionId and paymentStatus from the aquiring bank."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 200 - Payment failed insufficient funds",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"340000000000009\",\r\n  \"cardHolder\" : \"Not enough money\",\r\n  \"cardType\" : \"americanexpress\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a successful 200-OK response that contains a transactionId and paymentStatus from the aquiring bank.\r\nNote that whilst the API call is successful, the acquiring bank is unable to charge the payment card and this is reflected in the paymentStatus it returns."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 200 - Payment failed incorrect card details",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"340000000000009\",\r\n  \"cardHolder\" : \"Wrong card details\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a successful 200-OK response that contains a transactionId and paymentStatus from the aquiring bank.\r\nNote that whilst the API call is successful, the acquiring bank is unable to charge the payment card and this is reflected in the paymentStatus it returns."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 200 - Payment failed card frozen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"340000000000009\",\r\n  \"cardHolder\" : \"Card frozen\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a successful 200-OK response that contains a transactionId and paymentStatus from the aquiring bank.\r\nNote that whilst the API call is successful, the acquiring bank is unable to charge the payment card and this is reflected in the paymentStatus it returns."
+					},
+					"response": []
+				}
+			],
+			"description": "A collection of calls that will result in a success responses.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "25d1efa1-fb81-4475-9fe7-aba4a06dc085",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1443388-6950-4ce4-9fe5-0718cceb65b5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Unauthenticated responses",
+			"item": [
+				{
+					"name": "RetrievePayments: 401 - Missing Authorisation header",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+							]
+						},
+						"description": "A GET call which receives a 401-Unauthenticated response due to a missing Authorisation request header."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 401 - Invalid Authorisation header",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "invalidString",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+							]
+						},
+						"description": "A GET call which receives a 401-Unauthenticated response due to an invalid Authorisation request header e.g. The Basic Authentication string cannot be decoded."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 401 - Incorrect credentials",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "wrongpassword",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "wrongusername",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+							]
+						},
+						"description": "A GET call which receives a 401-Unauthenticated response due to incorrect credentials in the Authorisation request header.\r\nNote that for the purposed of the recruitment excercise, the credentials are just - testuser:password1"
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 401 - Incorrect credentials",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "wrongpassword",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "wrongusername",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+							]
+						},
+						"description": "A POST call which receives a 401-Unauthenticated response due to incorrect credentials in the Authorisation request header.\r\nNote that for the purposed of the recruitment excercise, the credentials are just - testuser:password1"
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 401 - Missing Authorisation header",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 401-Unauthorised response due to a missing Authorisation request header."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 401 - Invalid Authorisation header",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "invalidString",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 401-Unauthenticated response due to an invalid Authorisation request header e.g. The Basic Authentication string cannot be decoded."
+					},
+					"response": []
+				}
+			],
+			"description": "A collection of calls with authentication issues which will all receive 401-Unauthorised responses.",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c7060341-2bbb-4f1e-a361-0a3e3fd41017",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9eb416d4-3be5-4f93-ad30-c3f7d65251a0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Acquiring Bank API error responses",
+			"item": [
+				{
+					"name": "RetrievePayments: 502 - Unsuccessful response from acquiring bank",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/cccccccc-cccc-cccc-cccc-cccccccccccc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"cccccccc-cccc-cccc-cccc-cccccccccccc"
+							]
+						},
+						"description": "A GET call which receives a 502-Bad Gateway response to indicate that the response from the call to the acquiring bank was not a non-2XX status."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 500 - Error when calling acquiring bank",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/dddddddd-dddd-dddd-dddd-dddddddddddd",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"dddddddd-dddd-dddd-dddd-dddddddddddd"
+							]
+						},
+						"description": "A GET call which receives a 500-InternalServerError response to indicate that the call to the acquiring bank encountered an expected error. e.g. its API was down."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 500 - Payments missing from acquiring bank response",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"
+							]
+						},
+						"description": "A GET call which receives a 500-InternalServerError response to indicate that an error occurred when mapping the acquiring bank's api response to a local model due to missing payments."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 500 - Error when calling acquiring bank",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Bank API Fault\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 500-InternalServerError response to indicate that the call to the acquiring bank encountered an expected error. e.g. its API was down."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 502 - Unsuccessful response from acquiring bank",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Bank API Error\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 502-Bad Gateway response to indicate that the response from the call to the acquiring bank was not a non-2XX status."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 500 - PaymentStatus missing from acquiring bank response",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Missing payment status\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 500-InternalServerError response to indicate that an error occurred when mapping the acquiring bank's api response to a local model due to a missing PaymentStatus ."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 500 - TransactionId missing from acquiring bank response",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Missing transaction ID\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 500-InternalServerError response to indicate that an error occurred when mapping the acquiring bank's api response to a local model due to a missing TransactionId ."
+					},
+					"response": []
+				}
+			],
+			"description": "All of the calls contained within this folder will failed because of a simulated problem with the acquiring bank.\r\ne.g.\r\n- The acquiring bank returns a non-2XX status response.\r\n- The acquiring bank times out or another exception occurs during the call.",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Bad request/Not allowed responses",
+			"item": [
+				{
+					"name": "RetrievePayments: 400 - Missing transaction id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A GET call which receives a successful 400-Bad Request response due to a missing transactionId."
+					},
+					"response": []
+				},
+				{
+					"name": "RetrievePayments: 400 - TransactionId incorrectly formatted",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testuser",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaaz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments",
+								"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaaz"
+							]
+						},
+						"description": "A GET call which receives a successful 400-Bad Request response due to an incorrectly formatted transactionId."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing cardNumber",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing cardNumber property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid cardNumber",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004Z\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid cardNumber property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Empty cardNumber",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an empty cardNumber property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing cardHolder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing cardHolder property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Empty cardHolder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\": \"\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an empty cardHolder property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing cardType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\": \"Test account\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing cardType property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid cardType number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : 8,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid cardType property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid cardType string",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"fakecard\",\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid cardType property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing expirationMonth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing expirationMonth property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid expirationMonth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"xx\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid expirationMonth property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing expirationYear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing expirationYear property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid expirationYear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"xx\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid expirationYear property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - expirationMonth and Year combination in the past",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"01\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a combination of expirationMonth and expirationYear properties in the request body amount to a date in the past. i.e. the card has expired."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing paymentAmount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing paymentAmount property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid paymentAmount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": \"xx\",\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing paymentAmount property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Negative paymentAmount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": -100.00,\r\n  \"currency\" : \"gbp\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a negative paymentAmount property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing currency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": 100.00,\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing currency property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid currency number",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": 100.00,\r\n  \"currency\" : 20,\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid currency property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid currency string",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": 100.00,\r\n  \"currency\" : \"XXX\",\r\n  \"cvv\" : \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid currency property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Missing CVV",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": 100.00,\r\n  \"currency\" : \"GBP\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to a missing CVV property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Invalid CVV",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : \"mastercard\",\r\n  \"expirationMonth\": \"12\",\r\n  \"expirationYear\": \"20\",\r\n  \"paymentAmount\": 100.00,\r\n  \"currency\" : \"GBP\",\r\n  \"cvv\" : \"ABC123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an invalid CVV property in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "ProcessPayment: 400 - Empty request body",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/payments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"payments"
+							]
+						},
+						"description": "A POST call which receives a 400-Bad Request response due to an empty request body."
+					},
+					"response": []
+				}
+			],
+			"description": "All of the calls in this folder will fail with a 400-Bad Request or 405-Not Allowed response due to poorly formatted/missing request properties.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c2e30cc4-6c23-47f4-b460-4caf1783e799",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "10b4ebab-b950-4c8a-9eca-8a1eaadea515",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "password1",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "testuser",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a14c8cba-4153-457c-b435-1cc45109c397",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "54198bfd-d21e-4c17-9ae2-0cdf1ea641d5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1b608bbe-d3a4-49f2-a4f4-6f96335c16ff",
+			"key": "baseUrl",
+			"value": "https://localhost:44349/api/v1"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
