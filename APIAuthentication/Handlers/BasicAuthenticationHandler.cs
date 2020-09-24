@@ -13,7 +13,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace PaymentGatewayApi.Authentication
+namespace APIAuthentication.Handlers
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
@@ -54,7 +54,7 @@ namespace PaymentGatewayApi.Authentication
             catch
             {
                 throw new HttpException(HttpStatusCode.Unauthorized,
-                        Resources.ErrorCode_UnthenticatedInvalidAuthenticationHeader,
+                        Resources.ErrorCode_UnauthenticatedInvalidAuthenticationHeader,
                         Resources.ErrorMessage_UnauthenticatedInvalidAuthenticationHeader);
             }
 
@@ -67,7 +67,7 @@ namespace PaymentGatewayApi.Authentication
 
             var claims = new Claim[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Username),
-                new Claim(ClaimTypes.Name, user.Password),
+                new Claim(ClaimTypes.Name, user.Username),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);

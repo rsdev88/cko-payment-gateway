@@ -1,3 +1,4 @@
+using APIAuthentication.Handlers;
 using APIAuthentication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PaymentGatewayApi.Authentication;
 using PaymentGatewayApi.Mappers;
 using PaymentGatewayApi.Middleware;
 using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;

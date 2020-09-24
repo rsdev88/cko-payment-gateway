@@ -115,20 +115,20 @@ namespace ApiSharedLibrary.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 6789.
+        /// </summary>
+        public static string ErrorCode_UnauthenticatedInvalidAuthenticationHeader {
+            get {
+                return ResourceManager.GetString("ErrorCode_UnauthenticatedInvalidAuthenticationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 5678.
         /// </summary>
         public static string ErrorCode_UnauthenticatedMissingAuthenticationHeader {
             get {
                 return ResourceManager.GetString("ErrorCode_UnauthenticatedMissingAuthenticationHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 6789.
-        /// </summary>
-        public static string ErrorCode_UnthenticatedInvalidAuthenticationHeader {
-            get {
-                return ResourceManager.GetString("ErrorCode_UnthenticatedInvalidAuthenticationHeader", resourceCulture);
             }
         }
         

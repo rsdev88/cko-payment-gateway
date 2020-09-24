@@ -135,11 +135,11 @@
   <data name="ErrorCode_UnauthenticatedIncorrectCredentials" xml:space="preserve">
     <value>7890</value>
   </data>
+  <data name="ErrorCode_UnauthenticatedInvalidAuthenticationHeader" xml:space="preserve">
+    <value>6789</value>
+  </data>
   <data name="ErrorCode_UnauthenticatedMissingAuthenticationHeader" xml:space="preserve">
     <value>5678</value>
-  </data>
-  <data name="ErrorCode_UnthenticatedInvalidAuthenticationHeader" xml:space="preserve">
-    <value>6789</value>
   </data>
   <data name="ErrorCode_Validation" xml:space="preserve">
     <value>1234</value>
