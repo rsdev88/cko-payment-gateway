@@ -117,18 +117,18 @@ namespace ApiSharedLibrary.Resources {
         /// <summary>
         ///   Looks up a localized string similar to 6789.
         /// </summary>
-        public static string ErrorCode_UnauthenticatedInvalidAuthenticationHeader {
+        public static string ErrorCode_UnauthenticatedInvalidAuthorisationHeader {
             get {
-                return ResourceManager.GetString("ErrorCode_UnauthenticatedInvalidAuthenticationHeader", resourceCulture);
+                return ResourceManager.GetString("ErrorCode_UnauthenticatedInvalidAuthorisationHeader", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 5678.
         /// </summary>
-        public static string ErrorCode_UnauthenticatedMissingAuthenticationHeader {
+        public static string ErrorCode_UnauthenticatedMissingAuthorisationHeader {
             get {
-                return ResourceManager.GetString("ErrorCode_UnauthenticatedMissingAuthenticationHeader", resourceCulture);
+                return ResourceManager.GetString("ErrorCode_UnauthenticatedMissingAuthorisationHeader", resourceCulture);
             }
         }
         
@@ -205,7 +205,7 @@ namespace ApiSharedLibrary.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authentication failed: The credentials received in the Authentication header were incorrect..
+        ///   Looks up a localized string similar to Authentication failed: The credentials received in the Authorisation header were incorrect..
         /// </summary>
         public static string ErrorMessage_UnauthenticatedIncorrectCredentials {
             get {
@@ -214,20 +214,20 @@ namespace ApiSharedLibrary.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authentication failed: The request received contained an invalid Authentication header. Please try using Basic Authentication..
+        ///   Looks up a localized string similar to Authentication failed: The request received contained an invalid &apos;Authorization&apos; header. Please try using Basic Authentication..
         /// </summary>
-        public static string ErrorMessage_UnauthenticatedInvalidAuthenticationHeader {
+        public static string ErrorMessage_UnauthenticatedInvalidAuthorisationHeader {
             get {
-                return ResourceManager.GetString("ErrorMessage_UnauthenticatedInvalidAuthenticationHeader", resourceCulture);
+                return ResourceManager.GetString("ErrorMessage_UnauthenticatedInvalidAuthorisationHeader", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authentication failed: The request received was missing an Authentication header. Please retry using Basic Authentication..
+        ///   Looks up a localized string similar to Authentication failed: The request received was missing an &apos;Authorization&apos; header. Please retry using Basic Authentication..
         /// </summary>
-        public static string ErrorMessage_UnauthenticatedMissingAuthenticationHeader {
+        public static string ErrorMessage_UnauthenticatedMissingAuthorisationHeader {
             get {
-                return ResourceManager.GetString("ErrorMessage_UnauthenticatedMissingAuthenticationHeader", resourceCulture);
+                return ResourceManager.GetString("ErrorMessage_UnauthenticatedMissingAuthorisationHeader", resourceCulture);
             }
         }
         
