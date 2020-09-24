@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Models.RequestEntities;
@@ -28,6 +29,7 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentRequestDto paymentDetails)
         {
@@ -41,6 +43,7 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpGet("{transactionid}")]
+        [Authorize]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> RetrievePayments(RetrievePaymentsRequestDto model)
         {

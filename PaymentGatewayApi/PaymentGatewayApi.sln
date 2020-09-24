@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGatewayApi", "PaymentGatewayApi.csproj", "{6267C30C-B6DE-4BE5-8E08-406536F6C8A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGatewayApiTests", "..\PaymentGatewayApiTests\PaymentGatewayApiTests.csproj", "{B19D1323-3975-4113-A5DD-6014D833EA88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGatewayApiTests", "..\PaymentGatewayApiTests\PaymentGatewayApiTests.csproj", "{B19D1323-3975-4113-A5DD-6014D833EA88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAuthentication", "..\APIAuthentication\ApiAuthentication.csproj", "{5F23A769-5913-492C-9343-30733B976F9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiSharedLibrary", "..\ApiSharedLibrary\ApiSharedLibrary.csproj", "{9BE82590-F0D2-4D6E-934A-F988BD74ED23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{B19D1323-3975-4113-A5DD-6014D833EA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B19D1323-3975-4113-A5DD-6014D833EA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B19D1323-3975-4113-A5DD-6014D833EA88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
