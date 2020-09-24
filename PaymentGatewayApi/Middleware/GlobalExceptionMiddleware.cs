@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Models.ResponseEntities;
@@ -11,10 +12,12 @@ namespace PaymentGatewayApi.Middleware
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<GlobalExceptionMiddleware> _logger;
 
-        public GlobalExceptionMiddleware(RequestDelegate next)
+        public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
         {
             this._next = next;
+            this._logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -25,7 +28,7 @@ namespace PaymentGatewayApi.Middleware
             }
             catch (Exception ex)
             {
-                //Todo: logging
+                this._logger.LogError(Resources.Resources.Logging_GlobalExceptionHandler, ex.Message);
                 await HandleException(httpContext, ex);
             }
         }

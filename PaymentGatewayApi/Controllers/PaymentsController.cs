@@ -28,10 +28,9 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpPost]
-        [ModelValidation]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentRequestDto paymentDetails)
         {
-            this._logger.LogInformation("Hello world!");
             var responseData = await this._paymentsProcessingService.ProcessPayment(paymentDetails);
 
             return Ok(new ResponseBaseDto()
@@ -42,7 +41,7 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpGet("{transactionid}")]
-        [ModelValidation]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> RetrievePayments(RetrievePaymentsRequestDto model)
         {
             var responseData = await this._paymentsRetrievalService.RetrievePayments(model);

@@ -9,6 +9,8 @@ using System.Net;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
 using PaymentGatewayApi.Resources;
 using System.Collections.Generic;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 namespace PaymentGatewayApiTests.Mappers
 {
@@ -16,11 +18,13 @@ namespace PaymentGatewayApiTests.Mappers
     public class DtoMapperTests
     {
         private DtoMapper _mapper;
+        private Mock<ILogger<DtoMapper>> _logger;
 
         [SetUp]
         public void DtoMapperTests_Setup()
         {
-            this._mapper = new DtoMapper();
+            this._logger = new Mock<ILogger<DtoMapper>>();
+            this._mapper = new DtoMapper(_logger.Object);
         }
 
         [Test]
@@ -66,6 +70,13 @@ namespace PaymentGatewayApiTests.Mappers
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_MappingError_PaymentApiToBankApi, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_MappingError_PaymentApiToBankApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
         [Test]
@@ -100,6 +111,13 @@ namespace PaymentGatewayApiTests.Mappers
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
 
@@ -132,6 +150,13 @@ namespace PaymentGatewayApiTests.Mappers
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_MappingError_PaymentApiToBankApi, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_MappingError_PaymentApiToBankApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
         [Test]
@@ -259,6 +284,13 @@ namespace PaymentGatewayApiTests.Mappers
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
         [Test]
@@ -278,6 +310,13 @@ namespace PaymentGatewayApiTests.Mappers
             Assert.AreEqual(HttpStatusCode.InternalServerError, ex.StatusCode);
             Assert.AreEqual(Resources.ErrorMessage_MappingError_BankApiToPaymentApi, ex.Message);
             Assert.AreEqual(Resources.ErrorCode_MappingError_BankApiToPaymentApi, ex.ErrorCode);
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error,
+                                            It.IsAny<EventId>(),
+                                            It.IsAny<It.IsAnyType>(),
+                                            It.IsAny<Exception>(),
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
         [TestCase("5500000000000004", 4, "XXXXXXXXXXXX0004")] //MasterCard

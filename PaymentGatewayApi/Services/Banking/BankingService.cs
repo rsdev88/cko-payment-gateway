@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Models.BankingDTOs.v1;
@@ -18,11 +19,13 @@ namespace PaymentGatewayApi.Services.Banking
     {
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
+        private readonly ILogger<BankingService> _logger;
 
-        public BankingService(IConfiguration configuration, HttpClient httpClient)
+        public BankingService(IConfiguration configuration, HttpClient httpClient, ILogger<BankingService> logger)
         {
             this._configuration = configuration;
             this._httpClient = httpClient;
+            this._logger = logger;
         }
 
         public async Task<BankProcessPaymentResponseDto> ProcessPayment(BankProcessPaymentRequestDto bankDto)
@@ -73,12 +76,14 @@ namespace PaymentGatewayApi.Services.Banking
             }
             catch (HttpException)
             {
+                //Nothing to do here - the global exception middleware will catch, log and handle the error.
                 throw;
             }
 
             catch (Exception ex)
             {
-                //Todo: logging with ex
+                //The global exception middleware will also catch and log this HTTP exception but we also want to log the original exception message.
+                this._logger.LogError(Resources.Resources.Logging_BankingServiceUnexpected, ex.Message);
                 throw new HttpException(HttpStatusCode.InternalServerError,
                                         Resources.Resources.ErrorCode_BankingApiUnexpectedError,
                                         Resources.Resources.ErrorMessage_BankingApiUnexpectedError);

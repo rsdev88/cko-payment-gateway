@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Models.ResponseEntities;
 using PaymentGatewayApi.Resources;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -16,6 +18,14 @@ namespace PaymentGatewayApiTests.Models.CustomAttributes.ActionFilters
     [TestFixture]
     public class ModelValidationAttributeTests
     {
+        private Mock<ILogger<ModelValidationAttribute>> _logger;
+
+        [SetUp]
+        public void ModelValidationAttributeTests_Setup()
+        {
+            this._logger = new Mock<ILogger<ModelValidationAttribute>>();
+        }
+
         [Test]
         public void FailedModelValidationShouldResultInBadRequestStatus()
         {
@@ -34,7 +44,7 @@ namespace PaymentGatewayApiTests.Models.CustomAttributes.ActionFilters
                 new Dictionary<string, object>(),
                 new Mock<Controller>().Object);
 
-            var actionFilter = new ModelValidationAttribute();
+            var actionFilter = new ModelValidationAttribute(this._logger.Object);
 
             //Act
             actionFilter.OnActionExecuting(actionExecutingContext);
@@ -63,6 +73,13 @@ namespace PaymentGatewayApiTests.Models.CustomAttributes.ActionFilters
             Assert.IsNotNull(resultError.ValidationErrors[0].ErrorMessages);
             Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages.Length == 1);
             Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == "error");
+
+            //Verify logging took place
+            this._logger.Verify(x => x.Log(LogLevel.Error, 
+                                            It.IsAny<EventId>(), 
+                                            It.IsAny<It.IsAnyType>(), 
+                                            It.IsAny<Exception>(), 
+                                            (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()), Times.Once);
         }
 
         [Test]
@@ -82,7 +99,7 @@ namespace PaymentGatewayApiTests.Models.CustomAttributes.ActionFilters
                 new Dictionary<string, object>(),
                 new Mock<Controller>().Object);
 
-            var actionFilter = new ModelValidationAttribute();
+            var actionFilter = new ModelValidationAttribute(this._logger.Object);
 
             //Act
             actionFilter.OnActionExecuting(actionExecutingContext);
