@@ -73,7 +73,7 @@ namespace PaymentGatewayApi
                 endpoints.MapControllers();
             });
 
-            loggerFactory.AddFile("Logs/myapp-{Date}.txt");
+            loggerFactory.AddFile(Configuration["Logging:FilePath"]);
         }
     }
 }
