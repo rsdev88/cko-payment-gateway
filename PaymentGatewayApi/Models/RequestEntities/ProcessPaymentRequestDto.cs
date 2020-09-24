@@ -38,6 +38,7 @@ namespace PaymentGatewayApi.Models.RequestEntities
 
         [JsonProperty("paymentAmount")]
         [Required]
+        [Range(minimum: 0.0, maximum: double.MaxValue, ErrorMessageResourceName = "Validation_PaymentAmount", ErrorMessageResourceType = typeof(Resources))]
         public decimal? PaymentAmount { get; set; }
 
         [JsonProperty("currency")]

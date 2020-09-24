@@ -5,12 +5,12 @@ using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
 using PaymentGatewayApi.Services;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace PaymentGatewayApi.Controllers
 {
+    [Route("api/[controller]")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     public class PaymentsController : ControllerBase
@@ -42,6 +42,7 @@ namespace PaymentGatewayApi.Controllers
             });
         }
 
+        [HttpGet]
         [HttpGet("{transactionid}")]
         [Authorize]
         [ServiceFilter(typeof(ModelValidationAttribute))]

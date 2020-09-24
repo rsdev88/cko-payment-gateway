@@ -198,6 +198,9 @@
   <data name="Validation_ExpirationYear" xml:space="preserve">
     <value>The expirationYear must not be in the past or more than 15 years in the future.</value>
   </data>
+  <data name="Validation_PaymentAmount" xml:space="preserve">
+    <value>The paymentAmount must be a number greater than 0.00.</value>
+  </data>
   <data name="Validation_TransactionId" xml:space="preserve">
     <value>The transactionId must be in the format of a GUID - a 32 digit unique ID made up of hexadecimal characters separated by hyphens like so: 8-4-4-4-12.</value>
   </data>
