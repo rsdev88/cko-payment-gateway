@@ -30,7 +30,7 @@ namespace PaymentGatewayApiTests.Controllers
         }
 
         [Test]
-        public async Task ProcessPaymentShouldReturn200ForValidModelState()
+        public async Task ProcessPaymentShouldReturn200()
         {
             //Arrange
             var model = new ProcessPaymentRequestDto();
@@ -67,43 +67,7 @@ namespace PaymentGatewayApiTests.Controllers
         }
 
         [Test]
-        public void ProcessPaymentShouldReturn400ForInvalidModelState()
-        {
-            //Arrange
-            var model = new ProcessPaymentRequestDto();
-            this._controller.ModelState.AddModelError("ExpirationMonth", Resources.Validation_ExpirationMonth);
-
-            //Act
-            var result = this._controller.ProcessPayment(model).Result;
-
-            //Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-
-            var resultAsBadRequestObject = result as BadRequestObjectResult;
-            Assert.IsTrue(resultAsBadRequestObject.StatusCode == 400);
-            Assert.IsNotNull(resultAsBadRequestObject.Value);
-            Assert.IsInstanceOf<ResponseBaseDto>(resultAsBadRequestObject.Value);
-
-            var resultValue = resultAsBadRequestObject.Value as ResponseBaseDto;
-            Assert.IsTrue(resultValue.StatusCode == HttpStatusCode.BadRequest);
-            Assert.IsNotNull(resultValue.Data);
-            Assert.IsInstanceOf<ValidationErrorResponse>(resultValue.Data);
-
-            var resultError = resultValue.Data as ValidationErrorResponse;
-            Assert.IsTrue(resultError.ErrorMessage == Resources.ErrorMessage_Validation);
-            Assert.IsTrue(resultError.ErrorDescription == Resources.ErrorDescription_Validation);
-            Assert.IsTrue(resultError.ErrorCode == Resources.ErrorCode_Validation);
-            Assert.IsNotNull(resultError.ValidationErrors);
-            Assert.IsTrue(resultError.ValidationErrors.Count == 1);
-            Assert.IsTrue(resultError.ValidationErrors[0].FieldName == "ExpirationMonth");
-            Assert.IsNotNull(resultError.ValidationErrors[0].ErrorMessages);
-            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages.Length == 1);
-            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == Resources.Validation_ExpirationMonth);
-        }
-
-        [Test]
-        public async Task RetrievePaymentsShouldReturn200ForValidModelState()
+        public async Task RetrievePaymentsShouldReturn200()
         {
             //Arrange
             var model = new RetrievePaymentsRequestDto();
@@ -161,42 +125,6 @@ namespace PaymentGatewayApiTests.Controllers
             Assert.AreEqual(serviceResponse.Payments[0].CardType, resultPayment.CardType);
             Assert.AreEqual(serviceResponse.Payments[0].ExpirationMonth, resultPayment.ExpirationMonth);
             Assert.AreEqual(serviceResponse.Payments[0].ExpirationYear, resultPayment.ExpirationYear);
-        }
-
-        [Test]
-        public void RetrievePaymentShouldReturn400ForInvalidModelState()
-        {
-            //Arrange
-            var model = new ProcessPaymentRequestDto();
-            this._controller.ModelState.AddModelError("TransactionId", Resources.Validation_TransactionId);
-
-            //Act
-            var result = this._controller.ProcessPayment(model).Result;
-
-            //Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<BadRequestObjectResult>(result);
-
-            var resultAsBadRequestObject = result as BadRequestObjectResult;
-            Assert.IsTrue(resultAsBadRequestObject.StatusCode == 400);
-            Assert.IsNotNull(resultAsBadRequestObject.Value);
-            Assert.IsInstanceOf<ResponseBaseDto>(resultAsBadRequestObject.Value);
-
-            var resultValue = resultAsBadRequestObject.Value as ResponseBaseDto;
-            Assert.IsTrue(resultValue.StatusCode == HttpStatusCode.BadRequest);
-            Assert.IsNotNull(resultValue.Data);
-            Assert.IsInstanceOf<ValidationErrorResponse>(resultValue.Data);
-
-            var resultError = resultValue.Data as ValidationErrorResponse;
-            Assert.IsTrue(resultError.ErrorMessage == Resources.ErrorMessage_Validation);
-            Assert.IsTrue(resultError.ErrorDescription == Resources.ErrorDescription_Validation);
-            Assert.IsTrue(resultError.ErrorCode == Resources.ErrorCode_Validation);
-            Assert.IsNotNull(resultError.ValidationErrors);
-            Assert.IsTrue(resultError.ValidationErrors.Count == 1);
-            Assert.IsTrue(resultError.ValidationErrors[0].FieldName == "TransactionId");
-            Assert.IsNotNull(resultError.ValidationErrors[0].ErrorMessages);
-            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages.Length == 1);
-            Assert.IsTrue(resultError.ValidationErrors[0].ErrorMessages[0] == Resources.Validation_TransactionId);
         }
     }
 }

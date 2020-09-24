@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PaymentGatewayApi.Mappers;
 using PaymentGatewayApi.Middleware;
+using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Services;
 using PaymentGatewayApi.Services.Banking;
 using System;
@@ -41,6 +42,7 @@ namespace PaymentGatewayApi
             });
             services.AddControllers();
 
+            services.AddScoped<ModelValidationAttribute>();
             services.AddTransient<IPaymentsProcessingService, DefaultPaymentsProcessingService>();
             services.AddTransient<IPaymentsRetrievalService, DefaultPaymentsRetrievalService>();
             services.AddTransient<IDtoMapper, DtoMapper>();

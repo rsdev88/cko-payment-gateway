@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PaymentGatewayApi.Models.CustomAttributes.ActionFilters;
 using PaymentGatewayApi.Models.RequestEntities;
 using PaymentGatewayApi.Models.ResponseEntities;
 using PaymentGatewayApi.Services;
@@ -22,17 +23,9 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpPost]
+        [ModelValidation]
         public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentRequestDto paymentDetails)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new ResponseBaseDto() 
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Data = new ValidationErrorResponse(ModelState)
-                });
-            }
-
             var responseData = await this._paymentsProcessingService.ProcessPayment(paymentDetails);
 
             return Ok(new ResponseBaseDto()
@@ -43,17 +36,9 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpGet("{transactionid}")]
+        [ModelValidation]
         public async Task<IActionResult> RetrievePayments(RetrievePaymentsRequestDto model)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(new ResponseBaseDto()
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Data = new ValidationErrorResponse(ModelState)
-                });
-            }
-
             var responseData = await this._paymentsRetrievalService.RetrievePayments(model);
 
             return Ok(new ResponseBaseDto()
