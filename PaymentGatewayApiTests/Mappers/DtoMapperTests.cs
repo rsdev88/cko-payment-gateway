@@ -7,7 +7,7 @@ using PaymentGatewayApi.Models.ResponseEntities;
 using System;
 using System.Net;
 using static PaymentGatewayApi.Models.Enums.PaymentEnums;
-using PaymentGatewayApi.Resources;
+using ApiSharedLibrary.Resources;
 using System.Collections.Generic;
 using Moq;
 using Microsoft.Extensions.Logging;

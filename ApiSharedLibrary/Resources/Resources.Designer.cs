@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PaymentGatewayApi.Resources {
+namespace ApiSharedLibrary.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PaymentGatewayApi.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PaymentGatewayApi.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ApiSharedLibrary.Resources.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -102,6 +102,33 @@ namespace PaymentGatewayApi.Resources {
         public static string ErrorCode_MappingError_PaymentApiToBankApi {
             get {
                 return ResourceManager.GetString("ErrorCode_MappingError_PaymentApiToBankApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7890.
+        /// </summary>
+        public static string ErrorCode_UnauthenticatedIncorrectCredentials {
+            get {
+                return ResourceManager.GetString("ErrorCode_UnauthenticatedIncorrectCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6789.
+        /// </summary>
+        public static string ErrorCode_UnauthenticatedInvalidAuthenticationHeader {
+            get {
+                return ResourceManager.GetString("ErrorCode_UnauthenticatedInvalidAuthenticationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5678.
+        /// </summary>
+        public static string ErrorCode_UnauthenticatedMissingAuthenticationHeader {
+            get {
+                return ResourceManager.GetString("ErrorCode_UnauthenticatedMissingAuthenticationHeader", resourceCulture);
             }
         }
         
@@ -174,6 +201,33 @@ namespace PaymentGatewayApi.Resources {
         public static string ErrorMessage_MappingError_PaymentApiToBankApi {
             get {
                 return ResourceManager.GetString("ErrorMessage_MappingError_PaymentApiToBankApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication failed: The credentials received in the Authentication header were incorrect..
+        /// </summary>
+        public static string ErrorMessage_UnauthenticatedIncorrectCredentials {
+            get {
+                return ResourceManager.GetString("ErrorMessage_UnauthenticatedIncorrectCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication failed: The request received contained an invalid Authentication header. Please try using Basic Authentication..
+        /// </summary>
+        public static string ErrorMessage_UnauthenticatedInvalidAuthenticationHeader {
+            get {
+                return ResourceManager.GetString("ErrorMessage_UnauthenticatedInvalidAuthenticationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication failed: The request received was missing an Authentication header. Please retry using Basic Authentication..
+        /// </summary>
+        public static string ErrorMessage_UnauthenticatedMissingAuthenticationHeader {
+            get {
+                return ResourceManager.GetString("ErrorMessage_UnauthenticatedMissingAuthenticationHeader", resourceCulture);
             }
         }
         

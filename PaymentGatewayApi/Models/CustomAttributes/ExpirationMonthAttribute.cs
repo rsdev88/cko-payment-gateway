@@ -1,4 +1,5 @@
-﻿using PaymentGatewayApi.Models.RequestEntities;
+﻿using ApiSharedLibrary.Resources;
+using PaymentGatewayApi.Models.RequestEntities;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,7 +16,7 @@ namespace PaymentGatewayApi.Models.CustomAttributes
 
             if(string.IsNullOrEmpty(expirationMonth as string) || string.IsNullOrEmpty(expirationYear))
             {
-                return new ValidationResult(Resources.Resources.Validation_ExpirationMonth);
+                return new ValidationResult(Resources.Validation_ExpirationMonth);
             }
                     
             var minimumMonth = expirationYear == DateTime.Now.ToString("yy") ? DateTime.Now.Month: 1;
@@ -29,7 +30,7 @@ namespace PaymentGatewayApi.Models.CustomAttributes
                 return ValidationResult.Success;
             }
             
-            return new ValidationResult(Resources.Resources.Validation_ExpirationMonth);
+            return new ValidationResult(Resources.Validation_ExpirationMonth);
         }
     }
 }

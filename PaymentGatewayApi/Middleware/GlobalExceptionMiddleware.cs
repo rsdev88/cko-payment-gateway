@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiSharedLibrary.Resources;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PaymentGatewayApi.Exceptions;
@@ -28,7 +29,7 @@ namespace PaymentGatewayApi.Middleware
             }
             catch (Exception ex)
             {
-                this._logger.LogError(Resources.Resources.Logging_GlobalExceptionHandler, ex.Message);
+                this._logger.LogError(Resources.Logging_GlobalExceptionHandler, ex.Message);
                 await HandleException(httpContext, ex);
             }
         }
@@ -48,8 +49,8 @@ namespace PaymentGatewayApi.Middleware
             else
             {
                 statusCode = HttpStatusCode.InternalServerError;
-                errorCode = Resources.Resources.ErrorCode_InternalServerErrorCatchAll;
-                errorMessage = Resources.Resources.ErrorMessage_InternalServerErrorCatchAll;
+                errorCode = Resources.ErrorCode_InternalServerErrorCatchAll;
+                errorMessage = Resources.ErrorMessage_InternalServerErrorCatchAll;
             }
 
             httpContext.Response.StatusCode = (int)statusCode;
@@ -62,7 +63,7 @@ namespace PaymentGatewayApi.Middleware
                 {
                     ErrorCode = errorCode,
                     ErrorMessage = errorMessage,
-                    ErrorDescription = Resources.Resources.ErrorDescription_Generic
+                    ErrorDescription = Resources.ErrorDescription_Generic
                 }
             }));
         }

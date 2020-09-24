@@ -1,3 +1,6 @@
+using APIAuthentication.Handlers;
+using APIAuthentication.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +46,10 @@ namespace PaymentGatewayApi
             });
             services.AddControllers();
 
+            services.AddAuthentication("BasicAuthentication")
+                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddTransient<IApiAuthenicationService, DummyAuthenticationService>();
+
             services.AddScoped<ModelValidationAttribute>();
             services.AddTransient<IPaymentsProcessingService, DefaultPaymentsProcessingService>();
             services.AddTransient<IPaymentsRetrievalService, DefaultPaymentsRetrievalService>();
@@ -65,6 +72,8 @@ namespace PaymentGatewayApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

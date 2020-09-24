@@ -5,7 +5,15 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGatewayApi", "PaymentGatewayApi.csproj", "{6267C30C-B6DE-4BE5-8E08-406536F6C8A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGatewayApiTests", "..\PaymentGatewayApiTests\PaymentGatewayApiTests.csproj", "{B19D1323-3975-4113-A5DD-6014D833EA88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentGatewayApiTests", "..\PaymentGatewayApiTests\PaymentGatewayApiTests.csproj", "{B19D1323-3975-4113-A5DD-6014D833EA88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAuthentication", "..\APIAuthentication\ApiAuthentication.csproj", "{5F23A769-5913-492C-9343-30733B976F9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiSharedLibrary", "..\ApiSharedLibrary\ApiSharedLibrary.csproj", "{9BE82590-F0D2-4D6E-934A-F988BD74ED23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiAuthenticationTests", "..\ApiAuthenticationTests\ApiAuthenticationTests.csproj", "{4F748280-0DD7-4429-A743-B015CABC8C91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{4EA2CF1F-023A-43C3-9EA2-358E2A4E8A32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +29,25 @@ Global
 		{B19D1323-3975-4113-A5DD-6014D833EA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B19D1323-3975-4113-A5DD-6014D833EA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B19D1323-3975-4113-A5DD-6014D833EA88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F23A769-5913-492C-9343-30733B976F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BE82590-F0D2-4D6E-934A-F988BD74ED23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F748280-0DD7-4429-A743-B015CABC8C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F748280-0DD7-4429-A743-B015CABC8C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F748280-0DD7-4429-A743-B015CABC8C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F748280-0DD7-4429-A743-B015CABC8C91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B19D1323-3975-4113-A5DD-6014D833EA88} = {4EA2CF1F-023A-43C3-9EA2-358E2A4E8A32}
+		{4F748280-0DD7-4429-A743-B015CABC8C91} = {4EA2CF1F-023A-43C3-9EA2-358E2A4E8A32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6A3DE90-65CB-45EC-B180-01A906095A2A}

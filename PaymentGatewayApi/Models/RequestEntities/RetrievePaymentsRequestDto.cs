@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiSharedLibrary.Resources;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PaymentGatewayApi.Models.RequestEntities
@@ -7,7 +8,7 @@ namespace PaymentGatewayApi.Models.RequestEntities
     {
         [Required]
         [RegularExpression(@"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$",
-                            ErrorMessageResourceName = "Validation_TransactionId", ErrorMessageResourceType = typeof(Resources.Resources))]
+                            ErrorMessageResourceName = "Validation_TransactionId", ErrorMessageResourceType = typeof(Resources))]
         public Guid? TransactionId { get; set; }
     }
 }

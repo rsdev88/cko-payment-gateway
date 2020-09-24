@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using ApiSharedLibrary.Resources;
+using Microsoft.Extensions.Logging;
 using PaymentGatewayApi.Exceptions;
 using PaymentGatewayApi.Models.BankingDTOs.v1;
 using PaymentGatewayApi.Models.RequestEntities;
@@ -26,11 +27,11 @@ namespace PaymentGatewayApi.Mappers
         {
             if (model == null)
             {
-                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, (typeof(ProcessPaymentRequestDto).Name));
+                this._logger.LogError(Resources.Logging_DtoMapperNullInput, (typeof(ProcessPaymentRequestDto).Name));
 
                 throw new HttpException(HttpStatusCode.InternalServerError, 
-                                        Resources.Resources.ErrorCode_MappingError_PaymentApiToBankApi, 
-                                        Resources.Resources.ErrorMessage_MappingError_PaymentApiToBankApi);
+                                        Resources.ErrorCode_MappingError_PaymentApiToBankApi, 
+                                        Resources.ErrorMessage_MappingError_PaymentApiToBankApi);
             }
 
             var bankDto = new BankProcessPaymentRequestDto()
@@ -52,11 +53,11 @@ namespace PaymentGatewayApi.Mappers
         {
             if (model == null)
             {
-                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, (typeof(RetrievePaymentsRequestDto).Name));
+                this._logger.LogError(Resources.Logging_DtoMapperNullInput, (typeof(RetrievePaymentsRequestDto).Name));
 
                 throw new HttpException(HttpStatusCode.InternalServerError,
-                                        Resources.Resources.ErrorCode_MappingError_PaymentApiToBankApi,
-                                        Resources.Resources.ErrorMessage_MappingError_PaymentApiToBankApi);
+                                        Resources.ErrorCode_MappingError_PaymentApiToBankApi,
+                                        Resources.ErrorMessage_MappingError_PaymentApiToBankApi);
             }
 
             var bankDto = new BankRetrievePaymentsRequestDto()
@@ -71,11 +72,11 @@ namespace PaymentGatewayApi.Mappers
         {
             if (bankResponseDto == null)
             {
-                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, (typeof(BankProcessPaymentResponseDto).Name));
+                this._logger.LogError(Resources.Logging_DtoMapperNullInput, (typeof(BankProcessPaymentResponseDto).Name));
 
                 throw new HttpException(HttpStatusCode.InternalServerError,
-                                        Resources.Resources.ErrorCode_MappingError_BankApiToPaymentApi,
-                                        Resources.Resources.ErrorMessage_MappingError_BankApiToPaymentApi);
+                                        Resources.ErrorCode_MappingError_BankApiToPaymentApi,
+                                        Resources.ErrorMessage_MappingError_BankApiToPaymentApi);
             }
 
             var processPaymentResponse = new ProcessPaymentResponse()
@@ -91,12 +92,12 @@ namespace PaymentGatewayApi.Mappers
         {
             if (bankResponseDto == null || bankResponseDto.Payments == null)
             {
-                this._logger.LogError(Resources.Resources.Logging_DtoMapperNullInput, 
+                this._logger.LogError(Resources.Logging_DtoMapperNullInput, 
                                       bankResponseDto == null ? (typeof(BankRetrievePaymentsResponseDto).Name) : (typeof(BankRetrievedPaymentDetails).Name));
 
                 throw new HttpException(HttpStatusCode.InternalServerError,
-                                        Resources.Resources.ErrorCode_MappingError_BankApiToPaymentApi,
-                                        Resources.Resources.ErrorMessage_MappingError_BankApiToPaymentApi);
+                                        Resources.ErrorCode_MappingError_BankApiToPaymentApi,
+                                        Resources.ErrorMessage_MappingError_BankApiToPaymentApi);
             }
 
             var retrievePaymentResponse = new RetrievePaymentsResponse()

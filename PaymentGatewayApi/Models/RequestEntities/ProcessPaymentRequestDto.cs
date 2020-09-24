@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ApiSharedLibrary.Resources;
+using Newtonsoft.Json;
 using PaymentGatewayApi.Models.CustomAttributes;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -31,7 +32,7 @@ namespace PaymentGatewayApi.Models.RequestEntities
 
         [JsonProperty("expirationYear")]
         [Required]
-        [ExpirationYear(ErrorMessageResourceName = "Validation_ExpirationYear", ErrorMessageResourceType = typeof(Resources.Resources))]
+        [ExpirationYear(ErrorMessageResourceName = "Validation_ExpirationYear", ErrorMessageResourceType = typeof(Resources))]
         [MinLength(2), MaxLength(2)]
         public string ExpirationYear { get; set; }
 
@@ -45,7 +46,7 @@ namespace PaymentGatewayApi.Models.RequestEntities
         public SupportedCurrencies? Currency { get; set; }
 
         [JsonProperty("cvv")]
-        [RegularExpression(@"^[0-9]{3,4}$", ErrorMessageResourceName = "Validation_CvvRegex", ErrorMessageResourceType = typeof(Resources.Resources))]
+        [RegularExpression(@"^[0-9]{3,4}$", ErrorMessageResourceName = "Validation_CvvRegex", ErrorMessageResourceType = typeof(Resources))]
         [Required]
         [MinLength(3), MaxLength(4)]
         public string Cvv { get; set; }

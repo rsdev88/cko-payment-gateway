@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiSharedLibrary.Resources;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using PaymentGatewayApi.Models.ResponseEntities;
@@ -20,7 +21,7 @@ namespace PaymentGatewayApi.Models.CustomAttributes.ActionFilters
         {
             if (!context.ModelState.IsValid)
             {
-                this._logger.LogError(Resources.Resources.Logging_ModelValidationError, context.ModelState.Select(item => item.Key).ToList());
+                this._logger.LogError(Resources.Logging_ModelValidationError, context.ModelState.Select(item => item.Key).ToList());
 
                 context.Result = new BadRequestObjectResult(new ResponseBaseDto()
                 {
