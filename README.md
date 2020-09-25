@@ -3,9 +3,19 @@ Thank you for taking the time to review my take-home assignment in relation to m
 
 Below you'll find a guide that should help with the setup and running of my API.
 
+### Contents
+* [1. Assignment overview](#1-assignment-overview-man_technologist)
+* [2. Setup and prerequisites](#2-setup-and-prerequisites-gear)
+* [3. Building and running the API](#3-building-and-running-the-api-rocket)
+* [4. Calling and testing the API](#4-calling-and-testing-the-api-phone)
+* [5. Bonus tasks](#5-bonus-tasks-star)
+* [6. Assignment assumptions, considerations and trade-offs](#6-assignment-assumptions-considerations-and-trade-offs-thinking)
+* [7. Algorithmic complexities](#7-algorithmic-complexities-nerd_face)
+* [8. Appendix](#8-appendix-scroll)
+
 ## 1. Assignment overview :man_technologist:
 
-This repo contains both deliverables that were requested by the assignment instructions.
+This repo contains both of the deliverables that were requested by the assignment instructions.
 
 ### The first deliverable - the PaymentGatewayAPI (Visual Studio solution)
 
@@ -15,11 +25,11 @@ Project name | Project location | Responsibility
 -------------|------------------|---------------
 PaymentGatewayApi | `./PaymentGatewayApi/` | The API itself and the bulk of the application.
 PaymentGatewayApiTests | `./Tests/PaymentGatewayApiTests/` | The full set of unit tests for the API project.
-ApiAuthentication | `./ApiAuthentication/` | A class library project that contains authentication handlers and services. It's split into its own project as I thought in a real application, this is reusable code that would be shared across multiple services.
+ApiAuthentication | `./ApiAuthentication/` | A class library project that contains authentication handlers and services. It's split into its own project as this is reusable code that would be shared across multiple services in a real project.
 ApiAuthenticationTests | `./Tests/ApiAuthenticationTests/` | The full set of unit tests for the ApiAuthentication project.
 ApiSharedLibrary | `./ApiSharedLibrary/` | A class library project that contains common entities and resources shared by the API and the ApiAuthentication projects. 
 
-The API uses the following external dependencies that were downloaded using NuGet:
+The API uses the following external dependencies that can be downloaded using NuGet:
 * Serilog.Exensions.Logging.File (2.0.0) - used for file logging.
 * Newtonsoft.Json (12.0.3) - used for serializing/deserializing JSON data to/from domain models.
 
@@ -42,7 +52,7 @@ To make testing the API easier, I have provided a set of pre-made API calls (kno
  
  Each call should be named in a self-describing way to indicate the expected response, but I've also provided a description for each one just in case.
 
-If you don't already have Postman installed, you get get it from [here](https://www.postman.com/downloads/). Once installed and running, you can import my collection by clicking the 'Import' button at the top:
+If you don't already have Postman installed, you can get it from [here](https://www.postman.com/downloads/). Once installed and running, you can import my collection by clicking the 'Import' button at the top:
 
 ![Screenshot of Postman's header bar](./DocumentationImages/PostmanImportScreenshot1.jpg)
 *A screenshot of Postman's header bar.*
@@ -51,7 +61,7 @@ You can then click Upload Files and navigate to the `.json` file mentioned above
 
 The calls can then be accessed and viewed from the left hand side under the 'Collections' tab:
 
-(**Note**: Before attempting to send any calls to the PaymentGateway API, please see how to get it running first in section 2).
+(**Note**: Before attempting to send any calls to the PaymentGateway API, please ensure it is running first. Details on how to do this can be found in section 3 *'Building and running the API'*).
 
 ![Screenshot of Postman's Collections tab](./DocumentationImages/PostmanImportScreenshot2.jpg)
 *A screenshot of Postman's Collections tab.*
@@ -59,15 +69,15 @@ The calls can then be accessed and viewed from the left hand side under the 'Col
 ### MockLab
 #### Overview
 
-One of the deliverables of this take-home assignment was *"a simulator to mock the responses from the [aquiring] bank to test the API from your first deliverable [the payment gateway API]"*.
+One of the deliverables of this take-home assignment was *"a simulator to mock the responses from the [acquiring] bank to test the API from your first deliverable [the payment gateway API]"*.
 
-I decided that my preferred approach to this was to develop a set of virtual services, i.e. an API that has a set of stubs which will match the incoming request to a one of many pre-determined hardcoded reponses. In a virtual service, a given stub will always return the same response for a matched request no matter how many times you call it, even for non-idempotent HTTP verbs like POST, because the response is hardcoded.
+I decided that my preferred approach to this was to develop a set of virtual services, i.e. an API that has a set of stubs which will match the incoming request to one of many pre-determined hardcoded responses. In a virtual service, a given stub will always return the same response for a matched request no matter how many times you call it, even for non-idempotent HTTP verbs like POST, because the response is hardcoded.
 
 To see why I chose to use a virtual service, see section 6 *'Assumptions and considerations'* below.
 
-Although there are many options for this project, my virtual service platform of choice was [MockLab](https://get.mocklab.io/) due to its simplicity in creating and maintaining the API stubs.
+Although there are many options for this, my virtual service platform of choice was [MockLab](https://get.mocklab.io/) due to its simplicity in creating and maintaining the API stubs.
 
-I simply created an API and gave it a name (a domain is automatically assigned unless you specify one):
+I created an API and gave it a name. Unless you specificy a domain, it will assign one for you:
 
 ![Screenshot of the MockLab API dashboard](./DocumentationImages/Mocklab1.jpg)
 *A screenshot of the MockLab API dashboard.*
@@ -77,7 +87,7 @@ You can then start creating stubs:
 ![Screenshot of the Mocklab Stubs dashboard](./DocumentationImages/Mocklab2.png)
 *MockLab's Stubs dashboard, showing a list of stubs on the left. On the right you can name the stub, set up the pattern for the request that it matches (its HTTP verb, URL, and request body if appropriate) and hardcode a response body below. You can even add a delay to the response to simulate a slow network, or simulate a fault with the Fault tab.*
 
-In the screenshot above, for example, I have set up a stub to simluate a successful payment response from the bank. The sub matches a POST request to *[apiURL]/payments* with the following request body:
+In the screenshot above, for example, I have set up a stub to simulate a successful payment response from the bank. The sub matches a POST request to *[apiURL]/payments* with the following request body:
 
 ```javascript
 {
@@ -107,19 +117,17 @@ I plan to leave the bank API up and running with a base URL of http://02l9z.mock
 
 If you would like to view the stubs there are a couple of options:
 
-* **The easy option** - I can provide my MockLab login credentials upon request. I've also sent them in my email to your recruitment team when I submitted my assignment. If you choose this option please be careful not to change the stub request/responses or it will have a knock-on effect on the PaymentGateway API.
+* **The easy option** - I can provide my MockLab login credentials upon request. I've also sent them in my email to your recruitment team when I submitted my assignment. If you choose this option please be careful not to change the stub request/responses as it will have a knock-on effect on the PaymentGateway API.
 
-* **The harder option** - I have exported all of my stubs as a `.json` file which can be found in this repository under `./Tests/AcquiringBankApiVirtualServices/bankapi.json`. This can be used to import into your own MockLab API if you have an account or choose to set one up. Unfortunately, one of the downsides I've encountered with MockLab whilst working on this assignment is that they have not made it super-easy to import the `.json` file into your own API. If you choose this option, please refer to the instructions at the bottom of this ReadMe in section 8 *'Appendix'*.
+* **The harder option** - I have exported all of my stubs as a `.json` file which can be found in this repository under `./Tests/AcquiringBankApiVirtualServices/bankapi.json`. This can be imported into your own MockLab API if you have an account or choose to set one up. Unfortunately, one of the downsides I've encountered with MockLab whilst working on this assignment is that they have not made it very easy to import the `.json` file into your own API. If you choose this option, please refer to the instructions at the bottom of this ReadMe in section 8 *'Appendix'*.
 
 ## 3. Building and running the API :rocket:
 
 As mentioned above, there are two options for running the API:
 
-* **Option 1:** It can be built and run either in IIS Express directly from Visual Studio by simply opening the solution and hitting the green *'Run'* button in the command bar, ensuring that *'IIS Express'* is selected from the drop-down bar next the button. This will open a browser window and navigate to the page *https://localhost:44349/* which is the default URL that's been configured in the `launchSettings.json` file under the `Properties` folder of the `PaymentGatewayApi` project.
+* **Option 1:** It can be built and run either in IIS Express directly from Visual Studio by simply opening the solution and hitting the green *'Run'* button in the command bar, ensuring that *'IIS Express'* is selected from the drop-down bar next to the button. This will open a browser window and navigate to the page *https://localhost:44349/* which is the default URL that's been configured in the `launchSettings.json` file under the `Properties` folder of the `PaymentGatewayApi` project.
 
-* **Option 2:** Docker can be used to build and run the API in a container. This can also easily be run from Visual Studio 2019 using the same *'Run'* button, ensuring that *'Docker'* is selected from the drop-down bar. This will ensure that Docker Desktop is running and targetting the Linux OS before building and spinning up a Docker container that's running the API. A browser window will also be opened to the page *https://localhost:5001*. This URL has been configured in the `launchSettings.json` file as in Option 1. 
-
-Once the API is up and running, you're then ready to start calling it!
+* **Option 2:** Docker can be used to build and run the API in a container. This can also easily be run from Visual Studio 2019 using the same *'Run'* button, ensuring that *'Docker'* is selected from the drop-down bar. This will ensure that Docker Desktop is running and targeting the Linux OS before building and spinning up a Docker container that's running the API. A browser window will also be opened to the page *https://localhost:5001*. This URL has been configured in the `launchSettings.json` file as in Option 1. 
 
 
 ## 4. Calling and testing the API :phone:
@@ -132,7 +140,7 @@ The API has two endpoints:
 #### Authentication
 All calls to the API will be authenticated using `Basic` Authentication. As such, the request must contain a well-formatted *Authorization* header like so: `Basic dGVzdHVzZXI6cGFzc3dvcmQx`.
 
-This decodes to a simple username and password string: `testuser:password1` which I felt was fine for the purposes of this assignment.
+This decodes to a simple username and password string: `testuser:password1` which I felt was sufficient for the purposes of this assignment.
 
 #### POST requests to /payments
 As well as the *Authorization* header, POST requests must also contain a request body in JSON format: e.g.
@@ -154,14 +162,14 @@ An explanation of the expected properties in the request body is as follows. **N
 
 Property name | Property type | Property validation rules
 --------------|---------------|---------------------------
-cardNumber | string | Must be in a valid card number format - a checksum is applied to ensure this. <br> Must be either 15 (Amex) or 16 (Mastercard, Visa) digits long. 
+cardNumber | string | Must be in a valid card number format - a checksum is applied to ensure this. <br> Must be either 15 (Amex) or 16 (MasterCard, Visa) digits long. 
 cardHolder | string | None
 cardType | int or string | Mapped to an enum in the API code. Valid values are: <br> 0 - "mastercard" <br> 1 - "visa" <br> 2 - "americanexpress"
-expirationMonth | string | Must 2 digits long. <br> Must be a number between "01" and "12". <br> Depending on the year entered, it must not be in the past.
-expirationYear | string | Must be 2 digits long, e.g. "20" for 2020. <br> Must be between the current year and 15 years in the future.
+expirationMonth | string | Must have a length of 2. <br> Must parse as a number between 1 and 12. <br> Depending on the year entered, it must not be in the past.
+expirationYear | string | Must have a length of 2, e.g. "20" for 2020. <br> Must be between the current year and 15 years in the future.
 paymentAmount | decimal | Must be greater than 0.00.
-currency | int or string | Mapped to an enum in the API code. Valid values are: <br> 0 - "gbp" <br> 1 - "usd" <br> 2 - "eur" <br> 3 - "chf" <br> 4 - "sgd" <br> 5 - "aed" <br> 6 - "hkd" <br> 7 - "brl" <br> 8 - "mur" <br> 9 - "aud" <br> 10 - nzd <br> 11 - "cad"
-cvv | string | Must be between 3 and 4 digits long. <br> Must only consist of numbers.
+currency | int or string | Mapped to an enum in the API code. Valid values are: <br> 0 - "gbp" <br> 1 - "usd" <br> 2 - "eur" <br> 3 - "chf" <br> 4 - "sgd" <br> 5 - "aed" <br> 6 - "hkd" <br> 7 - "brl" <br> 8 - "mur" <br> 9 - "aud" <br> 10 - "nzd" <br> 11 - "cad"
+cvv | string | Must have a length of 3 or 4. <br> Must only consist of numbers.
 
 #### GET requests to /payments/<transactionId>
 As well as the *Authorization* header, GET requests **must** also contain a transactionId in the URL of the request following a `/` after payments, e.g:
@@ -170,7 +178,7 @@ As well as the *Authorization* header, GET requests **must** also contain a tran
 
 Property Name | Property type | Property validation rules
 --------------|---------------|--------------------------
-transactionId | Guid | Must be a 32 digit hyphen-separated Guid made up of hexadecimal characters <br> e.g. "12345678-abcd-1234-efab-123456789012"
+transactionId | Guid | Must be a 32 digit hyphen-separated Guid made up of hexadecimal characters in following format: <br> "8 characters-4 characters-4 characters-4 characters-12 characters" <br> e.g. "12345678-abcd-1234-efab-123456789012"
 
 
 #### General API response format
@@ -184,7 +192,7 @@ All calls to the API, whether POST or GET, successful or not, will receive a res
 
 Property Name | Property meaning
 --------------|------------------
-statusCode | An indication of the HTTP Status Code e.g. OK, Internal Server Error, Bad Request, e.g. Note that the request header will contain the actual status code itself, so the client will be able to inspect that to decide if a call was succesful. This field is more just an at-a-glance view of the request status.
+statusCode | An indication of the HTTP Status Code e.g. OK, Internal Server Error, Bad Request, etc. Note that the request header will contain the actual status code itself, so the client will be able to inspect that to decide if a call was successful. This field is more just an at-a-glance view of the request status.
 data| An object to hold the response data. See below for examples.
 
 #### Error data response format
@@ -204,11 +212,11 @@ When the API returns an error response, the `data` property will consist of an `
 Property Name | Property meaning
 --------------|------------------
 errorMessage  | A meaningful error message about what went wrong.
-errorDescription | More information for the client developer about how to solve the error, including a link to a fictional webpage which holds the API documentation and more information about the errors, including known issues and a timeline for their fixes.
-errorCode | A fictional internal business error code for the clients developer to use when searching the documentation for information about their error.
+errorDescription | More information for the client's developer about how to solve the error, including a link to a fictional webpage which holds the API documentation and more information about the errors, including known issues and a timeline for their fixes.
+errorCode | A fictional internal business error code for the client's developer to use when searching the documentation for information about their error.
 
 #### Post response format from /payments
-When the API responds successfully to a POST call to `/payments`, the `data` property in the response response will contain just two properties:
+When the API responds successfully to a POST call to `/payments`, the `data` property in the response will contain just two properties:
 
 ```javascript
 {
@@ -222,11 +230,11 @@ When the API responds successfully to a POST call to `/payments`, the `data` pro
 
 Property Name | Property meaning
 --------------|------------------
-transactionId | A unique indentifier for the payment, returned from the acquiring bank.
+transactionId | A unique identifier for the payment, returned from the acquiring bank.
 paymentStatus | An indication of the status of the payment, returned from the acquiring bank. Expected responses are: `Success`, `Pending`, `FailedInsufficientFunds`, `FailedIncorrectCardDetails` and `FailedCardFrozen`.
 
 #### GET response format from /payments
-When the API responds successfully to a GET call to `/payments`, the `data` property in the response response will contain an array named `Payments`. Although just one payment is expected for a unique identifier, it's possible that the acquiring bank may return more than one, so I decided to return both in an array of payment objects:
+When the API responds successfully to a GET call to `/payments`, the `data` property in the response will contain an array named `payments`. Although just one payment is expected for a unique identifier, it's technically possible that the acquiring bank may return more than one if there was an error when they were saved, so I decided to return `payments` as an array of objects:
 
 ```javascript
 {
@@ -277,7 +285,7 @@ expirationYear | The expiration year of the card.
 
 
 ### Unit tests
-Altogether, the two test projects consist of over 200 unit tests for as complete test coverage as I could think of, and these can be run from inside Visual Studio.
+Altogether, the two test projects consist of over 200 unit tests to maximise test coverage, and these can be run from inside Visual Studio.
 
 ### Postman collection
 For higher level end-to-end testing of the API, I recommend using the provide Postman collection that I described in section 2 *'Setup and prerequisites'*. To send a call to the API using the Postman collection, ensure that the API is running then simply select a call from the collection and hit *'Send'*.
@@ -287,7 +295,7 @@ Note that all of the saved calls in the collection use a `{{baseUrl}}` variable 
 ![Screenshot to show the Postman collection's baseUrl variable](./DocumentationImages/PostmanBaseUrl.jpg)
 *The Postman collection's baseUrl variable.*
 
-This is currently set at a collection level to `https://localhost:4449/api/v1` as I mainly used the IIS Express method of running the app. If you wish to run the API inside a Docker container instead, this `{{baseUrl}}` value can be edited by first clicking the elipsis symbol next to the the collection header itself to *View more actions*:
+This is currently set at a collection level to `https://localhost:4449/api/v1` as I mainly used the IIS Express method of running the app. If you wish to run the API inside a Docker container instead, this `{{baseUrl}}` value can be edited by first clicking the ellipsis symbol next to the the collection header itself to *View more actions*:
 
 ![The Postman collection's 'View more actions' button](./DocumentationImages/PostmanUpdateBaseUrl1.jpg)
 *The Postman collection's 'View more actions' button.*
@@ -301,15 +309,15 @@ Alternatively, you can edit the URL of an individual call simply by typing in it
 
 ## 5. Bonus tasks :star:
 
-I have attempted to tick off a few of the optional bonus tasks in the course of working on this project, add features that you would expect with a modern API.
+I have attempted to tick off a few of the optional bonus tasks in the course of working on this project, and include features that you would expect with a modern API.
 
 ### :white_check_mark: Logging
-I implemented simple `.txt` file logging using Serilog's `Serilog.Exensions.Logging.File` NuGet package which was simple to configure and call. The logs can be found under `./PaymentGatewayApi/logs` when the application runs. Different log levels are configured via settings in the two `appSettings.json` variants. For example, in Production, only messages of level `Error` and higher will be logged to prevent the files from getting too 'noisy'. 
+I implemented simple `.txt` file logging using Serilog's `Serilog.Exensions.Logging.File` NuGet package which was straightforward to configure and call. The logs can be found under `./PaymentGatewayApi/logs` when the application runs. Different log levels are configured via settings in the two `appSettings.json` variants. For example, in Production, only messages of level `Error` and higher will be logged to prevent the files from getting too 'noisy'. 
 
-If this was a Production app, I would most likely use a different sink instead of text files, such as [SEQ](https://datalust.co/seq) which Serilog can connect to and allows for far better organisation, filtering and searching of logs.
+If this was a Production app, I would most likely use a different sink instead of text files, such as [SEQ](https://datalust.co/seq) which Serilog can connect to and allows for far better organisation, filtering and searching of logs. However, due to the simplicity of setup, I decided a `.txt` file was suitable for this assignment.
 
 ### :white_check_mark: Authentication
-I implemented `Basic` authentication for the API and this lives in a separate project under `./ApiAuthentication`. It consists of a handler which checks the request for an `Authorization` header, decodes it into username and password strings and passes these into a dummy implementation of `ApiAuthentication.IAuthenticationService` for varification. This dummy implementation simply does a string comparison against some hardcoded values, but in a real API they would be checked against a database, real authentication service, or perhaps CI/CD pipleine secrets.
+I implemented `Basic` authentication for the API and this lives in a separate project under `./ApiAuthentication`. It consists of a handler which checks the request for an `Authorization` header, decodes it into username and password strings and passes these into a dummy implementation of `ApiAuthentication.IAuthenticationService` for varification. This dummy implementation simply does a string comparison against some hardcoded values, but in a real API they would be checked against a database, real authentication service, or perhaps CI/CD pipeline secrets.
 
 ### :white_check_mark: API Client
 Rather than build a client myself from scratch, I have provided an API client in the form of a Postman collection of around 45 pre-saved service calls which are part of this repository under `./Tests/PostmanCollection`. I hope this makes the job of testing my API a lot easier!
@@ -318,16 +326,16 @@ Rather than build a client myself from scratch, I have provided an API client in
 I'm quite new to containerization but I understand it's many advantages and wanted to give it a try. The API contains a Dockerfile under `./PaymentGatewayApi/Dockerfile` which contains the configuration to build and run the app inside a Docker container.  Please see the instructions in sections 2 and 3 for doing this.
 
 ### :negative_squared_cross_mark: Data storage
-I attempted to added this in the way of response caching but ran into problems - see 'Considerations' below.
+I attempted to add this in the way of response caching but ran into problems - see 'Considerations' below.
 
 ## 6. Assignment assumptions, considerations and trade-offs :thinking:
 
 Below are my assumptions and considerations throughout working on this assignment.
-### Simulating the aquiring bank API
+### Simulating the acquiring bank API
 I decided to use a virtual service to stub the Bank API as it had two distinct advantages when it came to writing the PaymentGateway API:
-1. I stored the URL of the virtual service in the API project's `appSettings.json` file, meaning that it can be easily swapped out for any other virtual service platform very easily just by changing the URL.
+1. I stored the URL of the virtual service in the API project's `appSettings.json` file, meaning that it can be swapped out for any other virtual service platform very easily by just changing the URL.
 
-2. The `appSettings.json` file is broken down into a Development and Production version, namely `appSettings.Development.json` and `appSettings.Production.json`. This allows me to specify a separate acquiring bank API URLs for each environment. ie. in `appSettings.Production.json` I can point to a real bank API and in Production, the PaymentGateway would call this without any code changes required.
+2. The `appSettings.json` file is broken down into a Development and Production version, namely `appSettings.Development.json` and `appSettings.Production.json`. This allows me to specify a separate acquiring bank API URL for each environment. ie. in `appSettings.Production.json` I can point to a real bank API and in Production the PaymentGateway would call this without any code changes required.
 (Note that in the absence of a real bank API URL, I've just used a fake placeholder in that file).
 
 ### Pagination, filtering, sorting for the GET request
@@ -366,7 +374,7 @@ Finally, when I added in authentication to the API, I decided that it should be 
 
 Overall, I did not have to write any looping algorithms throughout this assignment with the exception of the method `MaskString()` in `PaymentGatewayApi.Mappers.DtoMapper`, which is designed to take an input string and replace all but the final specified number of characters with 'X'. i.e. useful for masking payment card numbers.
 
-This method iterates over each character in the input string just once giving it a time complexity of *O(n)*. When doing so, it writes to a `StringBuilder` which is an efficient way of concatenating a string in .Net. If I has just used a `+=` operator, under the hood I believe this creates a new copy of the string each time, which would increase the space complexity. All in all though, as a card number is unlikely to be more than 15-16 characters, the efficiencies are negligle as it's not dealing with a huge collection of items.
+This method iterates over each character in the input string just once giving it a time complexity of *O(n)*. When doing so, it writes to a `StringBuilder` which is an efficient way of concatenating a string in .Net. If I has just used a `+=` operator, under the hood I believe this creates a new copy of the string each time, which would increase the space complexity. All in all though, as a card number is unlikely to be more than 15-16 characters, the efficiencies are negligible as it's not dealing with a huge collection of items.
 
 ## 8. Appendix :scroll:
 
@@ -376,14 +384,14 @@ To get started you'll need to first create a MockLab account if you don't alread
 ![Creating a new MockLab API - part 1](./DocumentationImages/Mocklab3.jpg)
 *Creating a new MockLab API - part 1.*
 
-Select the blank template, give it name and hit *Save*:
+Select the blank template, give it a name and hit *Save*:
 
 ![Creating a new MockLab API - part 2](./DocumentationImages/Mocklab4.jpg)
 *Creating a new MockLab API - part 2.*
 
-Once that's made, for simplicity, go into the  *Settings* on the left-hand side and temporarily turn off Admin Security (just for the import - turn it back on afterwards). Also make a note of your API's base url as you'll need this for the next step:
+Once that's made, for simplicity, go into the  *Settings* on the left-hand side and temporarily turn off Admin Security (just for the import - turn it back on afterwards). Also make a note of your API's base URL as you'll need this for the next step:
 
-![Disabling your MockLab API Admin Security](./DocumentationImages/Mocklab5.jpg)
+![Disabling your MockLab API Admin Security](./DocumentationImages/MockLab5.jpg)
 *Disabling your MockLab API Admin Security.*
 
 Finally, use the following *CURL* command to POST the contents of the `.json` export file to your API, ignoring the square brackets. ***Note**: On Windows 10, Git Bash can be used to perform CURL commands*:
@@ -400,4 +408,4 @@ And as if by magic, the stubs should then all appear in your MockLab API's *Stub
 ![The imported stubs in the new MockLab API](./DocumentationImages/Mocklab6.png)
 *The imported stubs in the new MockLab API*
 
-Enjoy! :grin:
+I hope you enjoy reviewing my API! :grin:
