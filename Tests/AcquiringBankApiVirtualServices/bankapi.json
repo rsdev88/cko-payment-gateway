@@ -20,7 +20,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.859Z",
+          "at" : "2020-09-25T16:55:49.279Z",
           "via" : "SYSTEM"
         }
       }
@@ -46,7 +46,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.859Z",
+          "at" : "2020-09-25T16:55:49.279Z",
           "via" : "SYSTEM"
         }
       }
@@ -69,7 +69,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.859Z",
+          "at" : "2020-09-25T16:55:49.279Z",
           "via" : "SYSTEM"
         }
       }
@@ -92,7 +92,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.859Z",
+          "at" : "2020-09-25T16:55:49.279Z",
           "via" : "SYSTEM"
         }
       }
@@ -117,7 +117,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.859Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -139,7 +139,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.859Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -165,7 +165,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -188,7 +188,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -214,7 +214,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -240,7 +240,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -266,7 +266,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -292,7 +292,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -306,7 +306,7 @@
     },
     "response" : {
       "status" : 200,
-      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 0,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  },\n  {\n    \"paymentStatus\": 1,\n    \"paymentDateTime\": \"2020/09/24 12:00:00\",\n    \"paymentAmount\" : 150.00,\n    \"currency\" : 3,\n    \"cardNumber\" : \"4111111111111111\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 1,\n    \"expirationMonth\" : \"11\",\n    \"expirationYear\" : \"22\",\n  }]\n}\n\n\n",
+      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 1,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  },\n  {\n    \"paymentStatus\": 2,\n    \"paymentDateTime\": \"2020/09/24 12:00:00\",\n    \"paymentAmount\" : 150.00,\n    \"currency\" : 3,\n    \"cardNumber\" : \"4111111111111111\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 1,\n    \"expirationMonth\" : \"11\",\n    \"expirationYear\" : \"22\",\n  }]\n}\n\n\n",
       "headers" : { }
     },
     "uuid" : "f6f75bb2-af25-4506-9c74-da7ec0f06e24",
@@ -315,7 +315,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -341,7 +341,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.858Z",
+          "at" : "2020-09-25T16:55:49.278Z",
           "via" : "SYSTEM"
         }
       }
@@ -355,7 +355,7 @@
     },
     "response" : {
       "status" : 200,
-      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 0,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  }]\n}\n\n\n",
+      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 1,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  }]\n}\n\n\n",
       "headers" : { }
     },
     "uuid" : "3700ecec-84c2-4b36-acf3-9723e43d26a9",
@@ -364,7 +364,7 @@
     "metadata" : {
       "mocklab" : {
         "created" : {
-          "at" : "2020-09-25T09:33:41.857Z",
+          "at" : "2020-09-25T16:55:49.277Z",
           "via" : "SYSTEM"
         }
       }
