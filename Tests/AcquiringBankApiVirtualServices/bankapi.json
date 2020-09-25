@@ -1,0 +1,376 @@
+{
+  "mappings" : [ {
+    "id" : "ed465c64-22ab-4465-85a0-b931250b3040",
+    "name" : "Process payment - unhappy path - bank API missing transactionID",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Missing transaction ID\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"paymentStatus\": \"Success\"\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "ed465c64-22ab-4465-85a0-b931250b3040",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.859Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "f7548fc6-0304-4f5d-a185-f4f6e699b36f",
+    "name" : "Process payment - unhappy path - bank API missing paymentStatus",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Missing payment status\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\"\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "f7548fc6-0304-4f5d-a185-f4f6e699b36f",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.859Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "e12f3c15-3993-4dfb-865c-8eb2a20076ef",
+    "name" : "Retrieve payment details - happy path - no payments ",
+    "request" : {
+      "url" : "/payments/aaaaaaaa-aaaa-aaaa-aaaa-bbbbbbbbbbbb",
+      "method" : "GET"
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"payments\":[]\n}\n\n\n",
+      "headers" : { }
+    },
+    "uuid" : "e12f3c15-3993-4dfb-865c-8eb2a20076ef",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.859Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "6b67b25f-bcf9-46df-8f8f-8687297c4e0a",
+    "name" : "Retrieve payment details - unhappy path - bank API response missing payments",
+    "request" : {
+      "url" : "/payments/eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
+      "method" : "GET"
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n}",
+      "headers" : { }
+    },
+    "uuid" : "6b67b25f-bcf9-46df-8f8f-8687297c4e0a",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.859Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "0726aeec-3e3f-42b3-99b3-816111922ec3",
+    "name" : "Process payment - unhappy path - bank API fault",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Bank API Fault\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "fault" : "EMPTY_RESPONSE"
+    },
+    "uuid" : "0726aeec-3e3f-42b3-99b3-816111922ec3",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.859Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "ef5b7042-122d-424d-9269-704fbf1b3ff4",
+    "name" : "Retrieve payment details - unhappy path - bank API fault",
+    "request" : {
+      "url" : "/payments/dddddddd-dddd-dddd-dddd-dddddddddddd",
+      "method" : "GET"
+    },
+    "response" : {
+      "status" : 200,
+      "fault" : "EMPTY_RESPONSE"
+    },
+    "uuid" : "ef5b7042-122d-424d-9269-704fbf1b3ff4",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.859Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "820eaffb-f46d-493c-bb96-471ac6c8967d",
+    "name" : "Process payment - unhappy path - non-successful response",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Bank API Error\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 500,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"paymentStatus\": 0\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "820eaffb-f46d-493c-bb96-471ac6c8967d",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "b08458d9-f0dd-4f09-87f0-4374a0cd8613",
+    "name" : "Retrieve payment details - unhappy path - non-successful response",
+    "request" : {
+      "url" : "/payments/cccccccc-cccc-cccc-cccc-cccccccccccc",
+      "method" : "GET"
+    },
+    "response" : {
+      "status" : 500,
+      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 0,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  }]\n}\n\n\n",
+      "headers" : { }
+    },
+    "uuid" : "b08458d9-f0dd-4f09-87f0-4374a0cd8613",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "46dd39b4-393e-4b85-b385-8ddbce6376cb",
+    "name" : "Process payment - happy path - card frozen",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"340000000000009\",\r\n  \"cardHolder\" : \"Card frozen\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"paymentStatus\": 5\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "46dd39b4-393e-4b85-b385-8ddbce6376cb",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "871a213d-0b8c-444e-abbc-37c02029ddaa",
+    "name" : "Process payment - happy path - incorrect card details",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"340000000000009\",\r\n  \"cardHolder\" : \"Wrong card details\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"paymentStatus\": 4\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "871a213d-0b8c-444e-abbc-37c02029ddaa",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "0ac828f4-52ab-4e38-bea7-4cedc36dafab",
+    "name" : "Process payment - happy path - insufficient funds",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"340000000000009\",\r\n  \"cardHolder\" : \"Not enough money\",\r\n  \"cardType\" : 2,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"paymentStatus\": 3\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "0ac828f4-52ab-4e38-bea7-4cedc36dafab",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "43e466ce-f513-44d9-8f20-8bb745f45583",
+    "name" : "Process payment - happy path - pending payment",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"4111111111111111\",\r\n  \"cardHolder\" : \"Pending payment\",\r\n  \"cardType\" : 1,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"paymentStatus\": 2\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "43e466ce-f513-44d9-8f20-8bb745f45583",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "f6f75bb2-af25-4506-9c74-da7ec0f06e24",
+    "name" : "Retrieve payment details - happy path - multiple payments ",
+    "request" : {
+      "url" : "/payments/bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "method" : "GET"
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 0,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  },\n  {\n    \"paymentStatus\": 1,\n    \"paymentDateTime\": \"2020/09/24 12:00:00\",\n    \"paymentAmount\" : 150.00,\n    \"currency\" : 3,\n    \"cardNumber\" : \"4111111111111111\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 1,\n    \"expirationMonth\" : \"11\",\n    \"expirationYear\" : \"22\",\n  }]\n}\n\n\n",
+      "headers" : { }
+    },
+    "uuid" : "f6f75bb2-af25-4506-9c74-da7ec0f06e24",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "a430e1e5-649b-4468-a27e-4cf7e1bb98bc",
+    "name" : "Process payment - happy path - successful payment",
+    "request" : {
+      "urlPath" : "/payments",
+      "method" : "POST",
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\r\n  \"cardNumber\" : \"5500000000000004\",\r\n  \"cardHolder\" : \"Test Name\",\r\n  \"cardType\" : 0,\r\n  \"expirationMonth\" : \"12\",\r\n  \"expirationYear\" : \"21\",\r\n  \"paymentAmount\" : 100.00,\r\n  \"currency\" : 0,\r\n  \"cvv\" : \"123\"\r\n}\r\n"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"transactionId\": \"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\",\n  \"paymentStatus\": 1\n}\n\n",
+      "headers" : { }
+    },
+    "uuid" : "a430e1e5-649b-4468-a27e-4cf7e1bb98bc",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.858Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  }, {
+    "id" : "3700ecec-84c2-4b36-acf3-9723e43d26a9",
+    "name" : "Retrieve payment details - happy path - single payment",
+    "request" : {
+      "url" : "/payments/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "method" : "GET"
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "{\n  \"payments\":[{\n    \"paymentStatus\": 0,\n    \"paymentDateTime\": \"2020/09/23 12:00:00\",\n    \"paymentAmount\" : 100.00,\n    \"currency\" : 0,\n    \"cardNumber\" : \"5500000000000004\",\n    \"cardHolder\" : \"Test Name\",\n    \"cardType\" : 0,\n    \"expirationMonth\" : \"12\",\n    \"expirationYear\" : \"21\",\n  }]\n}\n\n\n",
+      "headers" : { }
+    },
+    "uuid" : "3700ecec-84c2-4b36-acf3-9723e43d26a9",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2020-09-25T09:33:41.857Z",
+          "via" : "SYSTEM"
+        }
+      }
+    }
+  } ],
+  "meta" : {
+    "total" : 15
+  }
+}
